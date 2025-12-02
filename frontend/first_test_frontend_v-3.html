@@ -536,7 +536,7 @@
                 resultEl.textContent = `Файл: ${data.file_name}`;
                 //generateReport(data.result_text);
                 
-                generateReport(SGR_SCHEMA, data.result_text);
+                generateReport(SGR_SCHEMA, JSON.parse(data.result_text));
                 console.log(data.result_text);
 
             } catch (err) {
