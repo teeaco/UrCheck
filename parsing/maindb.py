@@ -14,7 +14,7 @@ except ImportError:
 try:
     from risk_extractor import StrictRuleBasedExtractor
 except ImportError:
-    print("llm_extractor.py не найден")
+    print("risk_extractor.py не найден")
     
     # заглушки
     class StrictRuleBasedExtractor:
@@ -49,7 +49,7 @@ def main():
         risks = []
     
     # сохранение
-    os.makedirs("data", exist_ok=True)
+    os.makedirs("../data", exist_ok=True)
     
     knowledge_base = {
         "metadata": {
@@ -62,12 +62,12 @@ def main():
         "risks": risks
     }
     
-    with open("data/knowledge_base.json", "w", encoding="utf-8") as f:
+    with open("../data/knowledge_base.json", "w", encoding="utf-8") as f:
         json.dump(knowledge_base, f, ensure_ascii=False, indent=2)
     
     # especially for risks
     if risks:
-        with open("data/risks.json", "w", encoding="utf-8") as f:
+        with open("../data/risks.json", "w", encoding="utf-8") as f:
             json.dump(risks, f, ensure_ascii=False, indent=2)
     
     # Статистика
