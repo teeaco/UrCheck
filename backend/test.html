@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>DOCX Analyzer</title>
+</head>
+<body>
+
+<h1>DOCX Analyzer</h1>
+
+<form id="upload-form">
+    <input type="file" id="file" accept=".docx" required>
+    <button type="submit">Отправить</button>
+</form>
+
+<div id="status"></div>
+<div id="result"></div>
+
+<script>
+    const form = document.getElementById('upload-form');
+    const statusEl = document.getElementById('status');
+    const resultEl = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();  // ← ДОЛЖНО БЫТЬ ПЕРВЫМ!
+        
+        console.log('Форма отправлена');
+
+        const fileInput = document.getElementById('file');
+        if (!fileInput.files[0]) {
+            statusEl.textContent = 'Выбери файл!';
+            return;
+        }
+
+        statusEl.textContent = 'Отправляю...';
+        resultEl.textContent = '';
+
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+
+        try {
+            console.log('Отправляю на сервер...');
+            
+            const response = await fetch('http://127.0.0.1:8000/api/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            console.log('Получен ответ:', response.status);
+
+            const data = await response.json();
+            console.log('Данные:', data);
+
+            if (!response.ok) {
+                statusEl.textContent = `Ошибка: ${data.detail}`;
+                return;
+            }
+
+            statusEl.textContent = 'Успех!';
+            resultEl.textContent = `Файл: ${data.file_name}\n\n${data.result_text}`;
+
+        } catch (err) {
+            console.error('Ошибка:', err);
+            statusEl.textContent = `Ошибка: ${err.message}`;
+        }
+    });
+</script>
+
+</body>
+</html>
