@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЮрCheck - Разбирайтесь в договорах и избегайте рисков</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 0px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            background: linear-gradient(180deg, #46abae, transparent);
+            padding-inline: 40px;
+            padding-block: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-size: 30px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .upload-section {
+            background-color: #a1d4d6;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .drop-area {
+            border: 3px dashed #bdc3c7;
+            border-radius: 10px;
+            padding: 60px 20px;
+            margin: 30px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #fff;
+        }
+        
+        .drop-area:hover, .drop-area.dragover {
+            border-color: #3498db;
+            background-color: #c6fdff;
+        }
+        
+        .drop-area i {
+            font-size: 64px;
+            color: #46abae;
+            margin-bottom: 20px;
+        }
+        
+        .drop-area h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .drop-area p {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-label {
+            display: inline-block;
+            background-color: #a1d4d6;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .file-label:hover {
+            background-color: #628688;
+        }
+        
+        .selected-file {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #ecf0f1;
+            border-radius: 6px;
+            display: none;
+        }
+        
+        .selected-file.show {
+            display: block;
+        }
+        
+        .file-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .file-size {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+        
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .analyze-btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-size: 1.1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2);
+        }
+        
+        .analyze-btn:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(46, 204, 113, 0.3);
+        }
+        
+        .analyze-btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .report-section {
+            background-color: white;
+            border-radius: 12px;
+            padding: 40px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            display: none;
+        }
+        
+        .report-section.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .report-header h2 {
+            color: #2c3e50;
+        }
+        
+        .back-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .report-content {
+            line-height: 1.8;
+        }
+        
+        .report-item {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .report-item:last-child {
+            border-bottom: none;
+        }
+        
+        .report-label {
+            font-weight: 600;
+            color: #2c3e50;
+            display: inline-block;
+            width: 200px;
+        }
+        
+        .report-value {
+            color: #34495e;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #3498db;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .upload-section, .report-section {
+                padding: 25px;
+            }
+            
+            .report-label {
+                width: 150px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <img src="icon-logo.svg" width="128" height="128" style="margin: -10px;">
+            <h1>ЮрCheck - Разбирайтесь в договорах и избегайте рисков</h1>
+    </header>
+
+    <div class="container">
+        <form class="upload-section" id="uploadSection">
+            <h2>Загрузите документ</h2>
+            <p>Перетащите файл в область ниже или выберите его вручную</p>
+            
+            <div class="drop-area" id="dropArea">
+                <img src="icon-file.svg" width="100" height="100">
+                <h3>Перетащите файл сюда</h3>
+                <p>Максимальный размер: 10 MB</p>
+                <input type="file" class="file-input" id="fileInput" accept=".docx, .doc, txt">
+                <label for="fileInput" class="file-label">
+                    <i class="fas fa-folder-open"></i> Выбрать файл
+                </label>
+                
+            </div>
+            
+            <div class="selected-file" id="selectedFile">
+                <p>Выбран файл: <span class="file-name" id="fileName">Название файла</span> <span class="file-size" id="fileSize">(0 MB)</span></p>
+            </div>
+            
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            
+            <div class="button-container">
+                <button class="analyze-btn" id="analyzeBtn" disabled style="display: flex; align-items: center; gap: 8px; justify-self: center;" type="submit"><img src="icon-analise.svg" width="32" height="32" style="filter: invert(1);">Анализировать файл</button>
+            </div>
+        </form>
+        
+        <section class="report-section" id="reportSection">
+            <div class="report-header">
+                <h2>Результаты анализа</h2>
+                <button class="back-btn" id="backBtn">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </button>
+            </div>
+            <div id="status"></div>
+            <div id="result"></div>
+            <div class="report-content" id="reportContent">
+                <!-- Содержимое отчета будет сгенерировано динамически -->
+                
+            </div>
+        </section>
+        
+        <footer>
+            <p>ЮрЧек &copy; 2025 | Поддерживаемые форматы: DOCX | ИУ5-55Б</p>
+        </footer>
+    </div>
+
+    <script>
+        const TEST_RESPONSE = {
+            "case_info": {
+                "contract_type": "купли-продажи квартиры",
+                "parties": {
+                    "party_a": "Львов Александр Владимирович",
+                    "party_b": "Колесов Юрий Иванович"
+                },
+                "signing_date": "не указана"
+            },
+            "section_1_subject": {
+                "criterion": "Предмет договора",
+                "status": "найден",
+                "content": "квартира № 22 на 3-м этаже многоквартирного жилого дома № 69 по улице Лесная в городе Москве, состоящая из 2 жилых комнат, общей площадью 46,2 кв. м",
+                "risk_level": "низкий",
+                "issues": [],
+                "recommendation": "предмет договора четко описан"
+            },
+            "section_2_price_payment": {
+                "criterion": "Цена и порядок оплаты",
+                "status": "найден",
+                "total_price": "указана",
+                "payment_term": "оплата произведена полностью до подписания договора",
+                "advance_payment": {
+                "present": "нет",
+                "percentage": "не указано"
+                },
+                "tax_obligation": {
+                "vat_mentioned": "нет",
+                "who_pays": "не указано"
+                },
+                "risk_level": "низкий",
+                "issues": [],
+                "recommendation": "оплата произведена полностью, что снижает риски"
+            },
+            "section_3_execution_deadline": {
+                "criterion": "Срок исполнения договора",
+                "status": "найден",
+                "deadline": "14 дней",
+                "unit": "дни",
+                "delivery_place": "место поставки указано",
+                "risk_level": "низкий",
+                "issues": [],
+                "recommendation": "сроки исполнения четко определены"
+            },
+            "section_4_acceptance_term": {
+                "criterion": "Срок приёмки работ, товара, услуг",
+                "status": "найден",
+                "acceptance_period": "не указано",
+                "procedures": "процедура приёмки описана",
+                "risk_level": "низкий",
+                "issues": [],
+                "recommendation": "процедура приемки прописана, что снижает риски"
+            },
+            "section_5_contract_validity": {
+                "criterion": "Срок действия договора",
+                "status": "не найден",
+                "start_date": "не указана",
+                "end_date": "не указана",
+                "obligation_termination_date": "не указана",
+                "risk_level": "средний",
+                "issues": [
+                "не указаны сроки действия договора"
+                ],
+                "recommendation": "рекомендуется указать срок действия договора"
+            },
+            "section_6_warranty_period": {
+                "criterion": "Гарантийный срок",
+                "status": "не найден",
+                "warranty_period": "не указано",
+                "obligations": "не указано",
+                "who_is_responsible": "не указано",
+                "risk_level": "средний",
+                "issues": [
+                "отсутствует информация о гарантиях"
+                ],
+                "recommendation": "рекомендуется добавить информацию о гарантийном сроке"
+            },
+            "section_7_liability": {
+                "criterion": "Ответственность сторон",
+                "status": "не найден",
+                "penalties_for_delay": "не указано",
+                "penalties_for_quality": "не указано",
+                "penalty_balance": "не указано",
+                "limitation_clause": "не указано",
+                "risk_level": "средний",
+                "issues": [
+                "отсутствует информация о штрафах и ответственности"
+                ],
+                "recommendation": "рекомендуется прописать ответственность сторон"
+            },
+            "section_8_jurisdiction": {
+                "criterion": "Подсудность",
+                "status": "не найден",
+                "jurisdiction": "не указано",
+                "is_favorable": "не указано",
+                "risk_level": "средний",
+                "issues": [
+                "не указана подсудность"
+                ],
+                "recommendation": "рекомендуется указать подсудность"
+            },
+            "section_9_requisites": {
+                "criterion": "Реквизиты сторон",
+                "status": "найден",
+                "party_a_details": {
+                "name": "Львов Александр Владимирович",
+                "address": "г. Москва, бул. Яна Райниса, д. 24, корп. 2, кв. 474",
+                "bank_details": "есть"
+                },
+                "party_b_details": {
+                "name": "Колесов Юрий Иванович",
+                "address": "г. Москва, ул. Ботаническая, д. 20, кв. 6",
+                "bank_details": "есть"
+                },
+                "completeness": "полные",
+                "risk_level": "низкий",
+                "issues": [],
+                "recommendation": "реквизиты сторон указаны полностью"
+            },
+            "summary": {
+                "overall_assessment": "ТРЕБУЕТ ДОРАБОТКИ",
+                "critical_issues": [
+                "отсутствие сроков действия договора",
+                "отсутствие информации о гарантиях и ответственности"
+                ],
+                "medium_issues": [],
+                "low_issues": [],
+                "total_risk_score": "6",
+                "priority_actions": [
+                "указать срок действия договора",
+                "добавить информацию о гарантиях",
+                "прописать ответственность сторон"
+                ],
+                "law_references": [
+                "Гражданский кодекс РФ",
+                "Семейный кодекс РФ"
+                ]
+            },
+            "judge_questions": [],
+            "next_steps": []
+            }
+
+        // Элементы DOM
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('fileInput');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const backBtn = document.getElementById('backBtn');
+        const selectedFile = document.getElementById('selectedFile');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const uploadSection = document.getElementById('uploadSection');
+        const reportSection = document.getElementById('reportSection');
+        const reportContent = document.getElementById('reportContent');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        
+        let currentFile = null;
+
+        const statusEl = document.getElementById('status');
+        const resultEl = document.getElementById('result');
+
+        uploadSection.addEventListener('submit', async (e) => {
+            e.preventDefault();  // ← ДОЛЖНО БЫТЬ ПЕРВЫМ!
+            
+            console.log('Форма отправлена');
+
+            //const fileInput = document.getElementById('file');
+            if (!fileInput.files[0]) {
+                statusEl.textContent = 'Выбери файл!';
+                return;
+            }
+
+            statusEl.textContent = 'Отправляю...';
+            resultEl.textContent = '';
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            try {
+                console.log('Отправляю на сервер...');
+                
+                const response = await fetch('http://127.0.0.1:8000/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                console.log('Получен ответ:', response.status);
+
+                const data = await response.json();
+                console.log('Данные:', data);
+
+                if (!response.ok) {
+                    statusEl.textContent = `Ошибка: ${data.detail}`;
+                    return;
+                }
+
+                statusEl.textContent = 'Успех!';
+                resultEl.textContent = `Файл: ${data.file_name}`;
+                //generateReport(data.result_text);
+                
+                generateReport(SGR_SCHEMA, data.result_text);
+                console.log(data.result_text);
+
+            } catch (err) {
+                console.error('Ошибка:', err);
+                statusEl.textContent = `Ошибка: ${err.message}`;
+            }
+        });
+        
+        // Обработчики событий для области перетаскивания
+        dropArea.addEventListener('click', (e) => {
+            if (e.target !== fileInput && e.target.tagName !== 'LABEL') {
+                fileInput.click();
+            }
+        });
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                handleFile(this.files[0]);
+            }
+        });
+        
+        // Предотвращаем стандартное поведение браузера для перетаскивания
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        // Подсветка области при перетаскивании
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            dropArea.classList.add('dragover');
+        }
+        
+        function unhighlight() {
+            dropArea.classList.remove('dragover');
+        }
+        
+        // Обработка сброса файла
+        dropArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length > 0) {
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(files[0]);
+                fileInput.files = dataTransfer.files;
+                
+                handleFile(files[0]);
+            }
+        }
+        
+        // Обработка выбранного файла
+        function handleFile(file) {
+            currentFile = file;
+            
+            // Отображаем информацию о файле
+            fileName.textContent = file.name;
+            fileSize.textContent = `(${(file.size / (1024 * 1024)).toFixed(2)} MB)`;
+            selectedFile.classList.add('show');
+            
+            // Активируем кнопку анализа
+            analyzeBtn.disabled = false;
+        }
+        
+        // Обработка кнопки анализа
+        analyzeBtn.addEventListener('click', function() {
+            if (!currentFile) return;
+            
+            // Показываем индикатор прогресса
+            progressBar.style.display = 'block';
+            progressFill.style.width = '0%';
+            
+            // Симуляция процесса анализа с прогрессом
+            simulateAnalysis();
+        });
+        
+        // Симуляция процесса анализа
+        function simulateAnalysis() {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 5;
+                progressFill.style.width = `${progress}%`;
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    
+                    // Скрываем секцию загрузки и показываем отчет
+                    uploadSection.style.display = 'none';
+                    reportSection.classList.add('show');
+                    
+                    // Генерируем отчет
+                    //generateReport(currentFile);
+                }
+            }, 100);
+        }
+
+        function generateReport(schema, data) {
+            let html = '';
+            //console.log('start gen', schema, data);
+            function processObject(obj, schemaPart, path = '') {
+                //console.log('obj', obj);
+                //console.log('schemaPart', schemaPart);
+                //console.log('path', path);
+
+                for (const key in obj) {
+                    //console.log(key, obj, obj.hasOwnProperty(key));
+                    if (obj.hasOwnProperty(key)) {
+                        const currentPath = path ? `${path}.${key}` : key;
+                        const value = obj[key];
+                        const label = getLabelFromSchema(schemaPart, key);
+                        //console.log(currentPath, label, value);
+                        if (value === null || value === undefined) {
+                            continue;
+                        }
+                        
+                        if (typeof value === 'object' && !Array.isArray(value)) {
+                            // Рекурсивно обрабатываем вложенные объекты
+                            //console.log('is object',label, value);
+                            if (schemaPart && schemaPart[key]) {
+                                processObject(value, schemaPart[key], currentPath);
+                            }
+                        } else if (Array.isArray(value)) {
+                            //console.log('is array',label, value);
+                            // Обрабатываем массивы
+                            if (value.length > 0) {
+                                const arrayValue = value.join(', ');
+                                html += createReportItem(label, arrayValue);
+                            }
+                        } else {
+                            // Обрабатываем простые значения
+                            html += createReportItem(label, value);
+                            //console.log(label, value);
+                            //html += label+'<br>'+value+'<br><br>';
+                        }
+                    }
+                }
+            }
+            
+            function getLabelFromSchema(schemaPart, key) {
+                if (!schemaPart) return key;
+                
+                if (typeof schemaPart[key] === 'string') {
+                    return schemaPart[key];
+                } else if (typeof schemaPart[key] === 'object' && schemaPart[key] !== null) {
+                    // Если в схеме объект, но нам нужен заголовок для самого ключа
+                    // можно вернуть ключ или поискать заголовок в родительской структуре
+                    return key;
+                }
+                return key;
+            }
+            
+            function createReportItem(label, value) {
+                // Функция для определения цвета на основе значения (особенно для risk_level)
+                const getValueStyle = (labelText, val) => {
+                    if (labelText.includes('риск') || labelText.includes('risk')) {
+                        const risk = val.toLowerCase();
+                        if (risk.includes('низкий') || risk.includes('низкий риск') || risk === 'низкий') {
+                            return 'color: #27ae60; font-weight: 600;';
+                        } else if (risk.includes('средний') || risk.includes('средний риск') || risk === 'средний') {
+                            return 'color: #f39c12; font-weight: 600;';
+                        } else if (risk.includes('высокий') || risk.includes('высокий риск') || risk === 'высокий') {
+                            return 'color: #e74c3c; font-weight: 600;';
+                        }
+                    } else if (labelText.includes('статус') || labelText.includes('status')) {
+                        if (val.includes('найден') || val === 'найден') {
+                            return 'color: #27ae60; font-weight: 600;';
+                        } else if (val.includes('не найден') || val === 'не найден') {
+                            return 'color: #e74c3c; font-weight: 600;';
+                        }
+                    } else if (labelText.includes('оценка') || labelText.includes('assessment')) {
+                        if (val.includes('БЕЗОПАСНЫЙ') || val.includes('безопасный')) {
+                            return 'color: #27ae60; font-weight: 600;';
+                        } else if (val.includes('ТРЕБУЕТ ДОРАБОТКИ') || val.includes('требует доработки')) {
+                            return 'color: #f39c12; font-weight: 600;';
+                        } else if (val.includes('РИСКОВАННЫЙ') || val.includes('рискованный')) {
+                            return 'color: #e74c3c; font-weight: 600;';
+                        }
+                    }
+                    return '';
+                };
+                
+                const style = getValueStyle(label, value);
+                const styleAttr = style ? ` style="${style}"` : '';
+                
+                return `
+                    <div class="report-item">
+                        <span class="report-label">${label}</span>
+                        <span class="report-value"${styleAttr}>${value}</span>
+                    </div>
+                `;
+            }
+            
+            // Обрабатываем данные на основе схемы
+            processObject(data, schema);
+            //console.log(html);
+            reportContent.innerHTML = html;
+        }
+
+        // Пример использования:
+        const SGR_SCHEMA = {
+            "case_info": {
+                "contract_type": "тип договора",
+                "parties": {
+                    "party_a": "наименование первой стороны",
+                    "party_b": "наименование второй стороны"
+                },
+                "signing_date": "дата заключения или 'не указана'"
+            },
+            "section_1_subject": {
+                "criterion": "Предмет договора",
+                "status": "найден/не найден",
+                "content": "точное описание",
+                "risk_level": "низкий/средний/высокий",
+                "issues": "Недостатки",
+                "recommendation": "рекомендация"
+            },
+            "section_2_price_payment": {
+                "criterion": "Цена и порядок оплаты",
+                "status": "найден/не найден",
+                "total_price": "указана ли цена",
+                "payment_term": "срок оплаты",
+                "advance_payment": {
+                    "present": "да/нет",
+                    "percentage": "если да, сколько %"
+                },
+                "tax_obligation": {
+                    "vat_mentioned": "да/нет",
+                    "who_pays": "кто платит НДС"
+                },
+                "risk_level": "низкий/средний/высокий",
+                "issues": "Недостатки",
+                "recommendation": "рекомендация"
+            },
+            "section_3_execution_deadline": {
+                "criterion": "Срок исполнения договора",
+                "status": "найден/не найден",
+                "deadline": "указанный срок",
+                "unit": "дни/рабочие дни/календарные дни",
+                "delivery_place": "место поставки указано?",
+                "risk_level": "низкий/средний/высокий",
+                "issues": "Недостатки",
+                "recommendation": "рекомендация"
+            },
+            "section_4_acceptance_term": {
+                "criterion": "Срок приёмки работ, товара, услуг",
+                "status": "найден/не найден",
+                "acceptance_period": "указанный период",
+                "procedures": "процедура приёмки описана?",
+                "risk_level": "низкий/средний/высокий",
+                "issues": "Недостатки",
+                "recommendation": "рекомендация"
+            },
+            "section_5_contract_validity": {
+                "criterion": "Срок действия договора",
+                "status": "найден/не найден",
+                "start_date": "дата начала",
+                "end_date": "дата окончания",
+                "obligation_termination_date": "дата прекращения обязательств",
+                "risk_level": "низкий/средний/высокий",
+                "issues": "Недостатки",
+                "recommendation": "рекомендация"
+            },
+            "section_6_warranty_period": {
+                "criterion": "Гарантийный срок",
+                "status": "найден/не найден",
+                "warranty_period": "указанный период",
+                "obligations": "обязанности при дефектах",
+                "who_is_responsible": "ответственная сторона",
+                "risk_level": "низкий/средний/высокий",
+                "issues": "Недостатки",
+                "recommendation": "рекомендация"
+            },
+            "section_7_liability": {
+                "criterion": "Ответственность сторон",
+                "status": "найден/не найден",
+                "penalties_for_delay": "штрафы за просрочку",
+                "penalties_for_quality": "штрафы за некачество",
+                "penalty_balance": "сбалансированы?",
+                "limitation_clause": "ограничение ответственности?",
+                "risk_level": "низкий/средний/высокий",
+                "issues": "Недостатки",
+                "recommendation": "рекомендация"
+            },
+            "section_8_jurisdiction": {
+                "criterion": "Подсудность",
+                "status": "найден/не найден",
+                "jurisdiction": "указанный суд",
+                "is_favorable": "выгодна для обеих сторон?",
+                "risk_level": "низкий/средний/высокий",
+                "issues": "Недостатки",
+                "recommendation": "рекомендация"
+            },
+            "section_9_requisites": {
+                "criterion": "Реквизиты сторон",
+                "status": "найден/не найден",
+                "party_a_details": {
+                    "name": "наименование",
+                    "address": "адрес",
+                    "bank_details": "есть ли реквизиты"
+                },
+                "party_b_details": {
+                    "name": "наименование",
+                    "address": "адрес",
+                    "bank_details": "есть ли реквизиты"
+                },
+                "completeness": "полные ли реквизиты",
+                "risk_level": "низкий/средний/высокий",
+                "issues": "Недостатки",
+                "recommendation": "рекомендация"
+            },
+            "summary": {
+                "overall_assessment": "БЕЗОПАСНЫЙ / ТРЕБУЕТ ДОРАБОТКИ / РИСКОВАННЫЙ",
+                "critical_issues": "Критические недостатки",
+                "medium_issues": "Небольшие недостатки",
+                "low_issues": "Недочёты",
+                "total_risk_score": "число от 1 до 10",
+                "priority_actions": "Приоритетность событий",
+                "law_references": "Ссылки на закон"
+            },
+            "judge_questions": "Вопросы к судье",
+            "next_steps": "Следующие шаги"
+        };
+
+        
+        
+        // Функция для получения рекомендаций
+        function getRecommendation(isSafe, threatCount) {
+            if (isSafe) {
+                return "Файл можно использовать без ограничений. Рекомендуется регулярно проверять файлы на наличие угроз.";
+            } else {
+                if (threatCount > 3) {
+                    return "Файл содержит несколько потенциальных угроз. Рекомендуется удалить файл и выполнить проверку системы.";
+                } else {
+                    return "Файл содержит подозрительные элементы. Рекомендуется проверить файл антивирусом перед использованием.";
+                }
+            }
+        }
+        
+        // Обработка кнопки "Назад"
+        backBtn.addEventListener('click', function() {
+            // Скрываем отчет и показываем секцию загрузки
+            reportSection.classList.remove('show');
+            uploadSection.style.display = 'block';
+            
+            // Сбрасываем форму
+            currentFile = null;
+            selectedFile.classList.remove('show');
+            analyzeBtn.disabled = true;
+            fileInput.value = '';
+            progressBar.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
