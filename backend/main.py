@@ -25,7 +25,7 @@ app.include_router(documents_router)
 @app.get("/")
 async def serve_frontend():
     """Раздаём HTML фронтенд"""
-    frontend_path = Path(__file__).parent / "test.html"
+    frontend_path = Path(__file__).parent.parent / "frontend/test.html"
     return FileResponse(frontend_path)
 
 
