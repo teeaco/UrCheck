@@ -1,6 +1,9 @@
 # parse_gk.py
 import re
 from typing import List, Dict
+import os
+import json
+
 try:
     from docx import Document
     DOCX_AVAILABLE = True
@@ -48,9 +51,8 @@ def parse_gk_file(filepath: str):
         elif current_article is not None:
             # текст к текущей статье
             current_text.append(text)
-        # else нахуй
     
-    #  последнюю статью
+    # последнюю статью
     if current_article is not None and current_text:
         article_data = process_article(current_article, ' '.join(current_text))
         if article_data:
@@ -60,7 +62,7 @@ def parse_gk_file(filepath: str):
     return articles
 
 def process_article(header: str, body: str) -> Dict:
-    #  номер статьи
+    # номер статьи
     article_match = re.search(r'Статья\s+(\d+)', header, re.IGNORECASE)
     if not article_match:
         # на всякий другой формат
@@ -77,6 +79,7 @@ def process_article(header: str, body: str) -> Dict:
     
     if len(clean_body) < 10:
         return None
+    
     # ключевые слова
     keywords = []
     text_lower = clean_body.lower()
@@ -103,7 +106,7 @@ def process_article(header: str, body: str) -> Dict:
     return {
         "id": f"gk_{article_num}",
         "type": "norm",
-        "header": header[:100],  #заголовок для отладки
+        "header": header[:100],
         "text": clean_body,
         "summary": summary,
         "metadata": {
@@ -111,10 +114,69 @@ def process_article(header: str, body: str) -> Dict:
             "article": article_num,
             "keywords": keywords,
             "law_type": "civil_code",
-            "last_updated": "2025"  # можно извлечь из документа (нахуй) или указать текущую дату
+            "last_updated": "2025"
         }
     }
 
+def parse_all_gk_files(files: List[str] = None):
+    if files is None: #ищем файлы
+        files = []
+        for file in os.listdir('.'):
+            if file.lower().startswith('гк') and file.lower().endswith('.docx'):
+                files.append(file)
+    
+    if not files:
+        print(" Не найдено файлов ГК РФ в текущей директории!")
+        print("   Убедитесь, что файлы называются как: ГК_РФ_часть1.docx, ГК_РФ_часть2.docx и т.д.")
+        return []
+    
+    all_articles = []
+    
+    print(f"\n ПАРСИНГ ВСЕХ ФАЙЛОВ ГК РФ ({len(files)} файлов)")
+    print("=" * 60)
+    
+    for filepath in files:
+        print(f"\n Чтение файла: {filepath}")
+        
+        articles = parse_gk_file(filepath)
+        all_articles.extend(articles)
+        
+        print(f"   Добавлено статей: {len(articles)}")
+    
+    print(f"\n ВСЕГО собрано статей: {len(all_articles)}")
+    
+    # чек на дубликаты
+    unique_articles = {}
+    for article in all_articles:
+        article_num = article['metadata']['article']
+        unique_articles[article_num] = article
+    
+    print(f"   Уникальных статей: {len(unique_articles)}")
+    
+    sorted_articles = sorted(
+        unique_articles.values(), 
+        key=lambda x: int(re.search(r'\d+', x['metadata']['article']).group())
+    )
+    
+    # сохранение
+    os.makedirs('data', exist_ok=True)
+    output_file = 'data/gk_all_articles.json'
+    
+    with open(output_file, 'w', encoding='utf-8') as f:
+        json.dump(sorted_articles, f, ensure_ascii=False, indent=2)
+    
+    print(f"\nВсе статьи сохранены в: {output_file}")
+    
+    keyword_stats = {}
+    for article in sorted_articles:
+        for keyword in article['metadata']['keywords']:
+            keyword_stats[keyword] = keyword_stats.get(keyword, 0) + 1
+    
+    print("\nСТАТИСТИКА ПО КЛЮЧЕВЫМ СЛОВАМ:")
+    for keyword, count in sorted(keyword_stats.items(), key=lambda x: x[1], reverse=True):
+        print(f"   {keyword}: {count}")
+    
+    return sorted_articles
 
 def parse_gk(filepath: str):
     """Умный парсер, который определяет формат файла"""
@@ -126,4 +188,24 @@ def parse_gk(filepath: str):
         try:
             return parse_gk_file(filepath)
         except:
-            print("хуйня какая-то...")
+            print("Ошибка парсинга файла")
+            return []
+
+#  для быстрого тестирования
+def test_parse_all_gk():
+    """Тестирует парсинг всех файлов ГК"""
+    print("ТЕСТИРОВАНИЕ ПАРСИНГА ВСЕХ ФАЙЛОВ ГК")
+    print("=" * 60)
+    
+    articles = parse_all_gk_files()
+    
+    if articles:
+        print(f"\n📋 ПРИМЕРЫ НАЙДЕННЫХ СТАТЕЙ:")
+        for i, article in enumerate(articles[:5]):
+            print(f"\n{i+1}. Статья {article['metadata']['article']}")
+            print(f"   Заголовок: {article['header'][:80]}...")
+            print(f"   Кратко: {article['summary'][:100]}...")
+            print(f"   Ключевые слова: {', '.join(article['metadata']['keywords'])}")
+    
+    return articles
+

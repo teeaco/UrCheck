@@ -1,0 +1,1744 @@
+{
+  "by_article": {
+    "454": [
+      "risk_supplier_0",
+      "risk_supplier_1",
+      "risk_customer_1"
+    ],
+    "455": [
+      "risk_supplier_0",
+      "risk_customer_1"
+    ],
+    "506": [
+      "risk_supplier_0",
+      "risk_customer_1"
+    ],
+    "467": [
+      "risk_supplier_0",
+      "risk_customer_1"
+    ],
+    "465": [
+      "risk_supplier_1"
+    ],
+    "468": [
+      "risk_supplier_2"
+    ],
+    "480": [
+      "risk_supplier_3",
+      "risk_customer_2"
+    ],
+    "519": [
+      "risk_supplier_3",
+      "risk_customer_2"
+    ],
+    "520": [
+      "risk_supplier_3",
+      "risk_supplier_22"
+    ],
+    "460": [
+      "risk_supplier_4"
+    ],
+    "461": [
+      "risk_supplier_4"
+    ],
+    "475": [
+      "risk_supplier_5",
+      "risk_supplier_7",
+      "risk_supplier_8",
+      "risk_supplier_10"
+    ],
+    "482": [
+      "risk_supplier_5",
+      "risk_customer_4"
+    ],
+    "15": [
+      "risk_supplier_5",
+      "risk_supplier_11",
+      "risk_supplier_22",
+      "risk_contractor_10",
+      "risk_contractor_19",
+      "risk_services_individual_0",
+      "risk_services_individual_1"
+    ],
+    "393": [
+      "risk_supplier_5"
+    ],
+    "309": [
+      "risk_supplier_6",
+      "risk_customer_6",
+      "risk_customer_16",
+      "risk_customer_21",
+      "risk_contractor_18"
+    ],
+    "469": [
+      "risk_supplier_8",
+      "risk_customer_7",
+      "risk_customer_8"
+    ],
+    "470": [
+      "risk_supplier_9"
+    ],
+    "314": [
+      "risk_supplier_10",
+      "risk_customer_5",
+      "risk_customer_15",
+      "risk_contractor_15",
+      "risk_services_legal_1",
+      "risk_services_legal_4"
+    ],
+    "518": [
+      "risk_supplier_10"
+    ],
+    "523": [
+      "risk_supplier_10"
+    ],
+    "310": [
+      "risk_supplier_12",
+      "risk_contractor_18"
+    ],
+    "424": [
+      "risk_supplier_12",
+      "risk_services_legal_2",
+      "risk_services_legal_3"
+    ],
+    "450": [
+      "risk_supplier_12",
+      "risk_contractor_4"
+    ],
+    "485": [
+      "risk_supplier_12",
+      "risk_customer_13"
+    ],
+    "516": [
+      "risk_supplier_14",
+      "risk_supplier_15",
+      "risk_customer_17"
+    ],
+    "382": [
+      "risk_supplier_14"
+    ],
+    "390": [
+      "risk_supplier_14"
+    ],
+    "486": [
+      "risk_supplier_15",
+      "risk_supplier_21",
+      "risk_customer_15",
+      "risk_customer_16"
+    ],
+    "509": [
+      "risk_supplier_16",
+      "risk_supplier_18",
+      "risk_customer_23"
+    ],
+    "510": [
+      "risk_supplier_16",
+      "risk_customer_21"
+    ],
+    "511": [
+      "risk_supplier_17",
+      "risk_customer_20",
+      "risk_customer_22"
+    ],
+    "312": [
+      "risk_supplier_18"
+    ],
+    "488": [
+      "risk_supplier_20"
+    ],
+    "491": [
+      "risk_supplier_20",
+      "risk_supplier_21"
+    ],
+    "395": [
+      "risk_supplier_21",
+      "risk_customer_15",
+      "risk_customer_16",
+      "risk_contractor_7",
+      "risk_contractor_15",
+      "risk_services_legal_8"
+    ],
+    "478": [
+      "risk_customer_2"
+    ],
+    "479": [
+      "risk_customer_3"
+    ],
+    "481": [
+      "risk_customer_4"
+    ],
+    "517": [
+      "risk_customer_5"
+    ],
+    "2": [
+      "risk_customer_7"
+    ],
+    "26": [
+      "risk_customer_7"
+    ],
+    "476": [
+      "risk_customer_10"
+    ],
+    "477": [
+      "risk_customer_11"
+    ],
+    "472": [
+      "risk_customer_13"
+    ],
+    "438": [
+      "risk_customer_14"
+    ],
+    "487": [
+      "risk_customer_15"
+    ],
+    "328": [
+      "risk_customer_15"
+    ],
+    "408": [
+      "risk_customer_16",
+      "risk_services_legal_10"
+    ],
+    "346": [
+      "risk_customer_18"
+    ],
+    "351": [
+      "risk_customer_18"
+    ],
+    "432": [
+      "risk_customer_19",
+      "risk_contractor_2",
+      "risk_contractor_3",
+      "risk_contractor_6",
+      "risk_contractor_13",
+      "risk_services_legal_0",
+      "risk_services_legal_2"
+    ],
+    "489": [
+      "risk_customer_19"
+    ],
+    "457": [
+      "risk_customer_20"
+    ],
+    "330": [
+      "risk_customer_20",
+      "risk_contractor_7",
+      "risk_services_legal_8"
+    ],
+    "421": [
+      "risk_customer_23",
+      "risk_services_legal_8"
+    ],
+    "513": [
+      "risk_customer_23"
+    ],
+    "702": [
+      "risk_contractor_2",
+      "risk_contractor_3"
+    ],
+    "715": [
+      "risk_contractor_4",
+      "risk_contractor_7"
+    ],
+    "453": [
+      "risk_contractor_4",
+      "risk_contractor_17"
+    ],
+    "1102": [
+      "risk_contractor_4",
+      "risk_contractor_17"
+    ],
+    "723": [
+      "risk_contractor_5",
+      "risk_contractor_17"
+    ],
+    "708": [
+      "risk_contractor_6"
+    ],
+    "704": [
+      "risk_contractor_7"
+    ],
+    "718": [
+      "risk_contractor_7",
+      "risk_contractor_8"
+    ],
+    "406": [
+      "risk_contractor_7",
+      "risk_contractor_8"
+    ],
+    "716": [
+      "risk_contractor_7",
+      "risk_contractor_8"
+    ],
+    "719": [
+      "risk_contractor_7",
+      "risk_contractor_8"
+    ],
+    "711": [
+      "risk_contractor_9",
+      "risk_contractor_15",
+      "risk_contractor_16",
+      "risk_contractor_17",
+      "risk_contractor_19"
+    ],
+    "706": [
+      "risk_contractor_10",
+      "risk_contractor_11",
+      "risk_contractor_18"
+    ],
+    "322": [
+      "risk_contractor_12"
+    ],
+    "709": [
+      "risk_contractor_13",
+      "risk_services_legal_2"
+    ],
+    "720": [
+      "risk_contractor_17",
+      "risk_contractor_19"
+    ],
+    "726": [
+      "risk_contractor_18"
+    ],
+    "705": [
+      "risk_contractor_19"
+    ],
+    "8": [
+      "risk_contractor_20"
+    ],
+    "307": [
+      "risk_contractor_20"
+    ],
+    "425": [
+      "risk_contractor_20",
+      "risk_services_legal_10"
+    ],
+    "717": [
+      "risk_contractor_21"
+    ],
+    "5": [
+      "risk_services_individual_0",
+      "risk_services_individual_1",
+      "risk_services_individual_2",
+      "risk_services_individual_3"
+    ],
+    "56": [
+      "risk_services_individual_0"
+    ],
+    "780": [
+      "risk_services_individual_1",
+      "risk_services_legal_6"
+    ],
+    "779": [
+      "risk_services_legal_0"
+    ],
+    "781": [
+      "risk_services_legal_2"
+    ],
+    "783": [
+      "risk_services_legal_2"
+    ],
+    "317": [
+      "risk_services_legal_5"
+    ],
+    "823": [
+      "risk_services_legal_5"
+    ],
+    "809": [
+      "risk_services_legal_5"
+    ],
+    "782": [
+      "risk_services_legal_7"
+    ],
+    "333": [
+      "risk_services_legal_8"
+    ],
+    "10": [
+      "risk_services_legal_9"
+    ],
+    "407": [
+      "risk_services_legal_10"
+    ],
+    "329": [
+      "risk_services_legal_10"
+    ]
+  },
+  "by_category": {
+    "предмет договора": [
+      "risk_supplier_0",
+      "risk_supplier_1",
+      "risk_supplier_8",
+      "risk_supplier_14",
+      "risk_supplier_15",
+      "risk_customer_0",
+      "risk_customer_1",
+      "risk_customer_9",
+      "risk_customer_19",
+      "risk_contractor_2",
+      "risk_contractor_3",
+      "risk_contractor_7",
+      "risk_contractor_13",
+      "risk_contractor_18",
+      "risk_services_individual_0",
+      "risk_services_individual_1",
+      "risk_services_legal_0",
+      "risk_services_legal_1",
+      "risk_services_legal_2",
+      "risk_services_legal_3"
+    ],
+    "сроки": [
+      "risk_supplier_2",
+      "risk_supplier_3",
+      "risk_supplier_10",
+      "risk_supplier_17",
+      "risk_supplier_19",
+      "risk_supplier_22",
+      "risk_customer_5",
+      "risk_customer_13",
+      "risk_customer_15",
+      "risk_customer_17",
+      "risk_customer_20",
+      "risk_customer_22",
+      "risk_customer_23",
+      "risk_contractor_0",
+      "risk_contractor_4",
+      "risk_contractor_6",
+      "risk_contractor_8",
+      "risk_contractor_15",
+      "risk_contractor_19",
+      "risk_services_individual_3"
+    ],
+    "имущественные права": [
+      "risk_supplier_4",
+      "risk_customer_4",
+      "risk_customer_18"
+    ],
+    "цена и оплата": [
+      "risk_supplier_5",
+      "risk_supplier_12",
+      "risk_supplier_13",
+      "risk_customer_14",
+      "risk_customer_16",
+      "risk_contractor_9",
+      "risk_contractor_14",
+      "risk_contractor_16",
+      "risk_services_individual_2"
+    ],
+    "качество товара/работ": [
+      "risk_supplier_6",
+      "risk_supplier_9",
+      "risk_customer_7",
+      "risk_customer_10",
+      "risk_customer_11",
+      "risk_customer_12",
+      "risk_contractor_5",
+      "risk_contractor_17"
+    ],
+    "приемка и передача": [
+      "risk_supplier_7",
+      "risk_supplier_20",
+      "risk_customer_24",
+      "risk_contractor_20"
+    ],
+    "гарантия": [
+      "risk_supplier_11"
+    ],
+    "доставка и поставка": [
+      "risk_supplier_16",
+      "risk_customer_3",
+      "risk_customer_21"
+    ],
+    "риски поставщика": [
+      "risk_supplier_18"
+    ],
+    "ответственность сторон": [
+      "risk_supplier_21",
+      "risk_services_legal_9"
+    ],
+    "риски покупателя": [
+      "risk_customer_2",
+      "risk_customer_6",
+      "risk_customer_8",
+      "risk_customer_25"
+    ],
+    "расторжение договора": [
+      "risk_contractor_1",
+      "risk_contractor_21",
+      "risk_services_legal_7"
+    ],
+    "субподряд и третьи лица": [
+      "risk_contractor_10",
+      "risk_contractor_11",
+      "risk_contractor_12"
+    ]
+  },
+  "by_severity": {
+    "high": [
+      "risk_contractor_2",
+      "risk_contractor_3",
+      "risk_contractor_6",
+      "risk_services_individual_0",
+      "risk_services_individual_1"
+    ],
+    "medium": [
+      "risk_supplier_0",
+      "risk_supplier_1",
+      "risk_supplier_6",
+      "risk_supplier_7",
+      "risk_supplier_8",
+      "risk_supplier_9",
+      "risk_supplier_12",
+      "risk_supplier_13",
+      "risk_supplier_14",
+      "risk_supplier_15",
+      "risk_supplier_17",
+      "risk_supplier_18",
+      "risk_supplier_19",
+      "risk_supplier_20",
+      "risk_supplier_21",
+      "risk_supplier_22",
+      "risk_customer_0",
+      "risk_customer_1",
+      "risk_customer_2",
+      "risk_customer_3",
+      "risk_customer_4",
+      "risk_customer_5",
+      "risk_customer_6",
+      "risk_customer_10",
+      "risk_customer_11",
+      "risk_customer_12",
+      "risk_customer_13",
+      "risk_customer_14",
+      "risk_customer_15",
+      "risk_customer_16",
+      "risk_customer_18",
+      "risk_customer_19",
+      "risk_customer_22",
+      "risk_customer_24",
+      "risk_customer_25",
+      "risk_contractor_0",
+      "risk_contractor_1",
+      "risk_contractor_4",
+      "risk_contractor_5",
+      "risk_contractor_7",
+      "risk_contractor_8",
+      "risk_contractor_9",
+      "risk_contractor_10",
+      "risk_contractor_11",
+      "risk_contractor_13",
+      "risk_contractor_14",
+      "risk_contractor_15",
+      "risk_contractor_17",
+      "risk_contractor_18",
+      "risk_contractor_19",
+      "risk_contractor_21",
+      "risk_services_individual_2",
+      "risk_services_individual_3",
+      "risk_services_legal_0",
+      "risk_services_legal_1",
+      "risk_services_legal_2",
+      "risk_services_legal_3",
+      "risk_services_legal_4",
+      "risk_services_legal_5",
+      "risk_services_legal_6",
+      "risk_services_legal_7",
+      "risk_services_legal_8",
+      "risk_services_legal_9",
+      "risk_services_legal_10"
+    ],
+    "low": [
+      "risk_supplier_2",
+      "risk_supplier_3",
+      "risk_supplier_4",
+      "risk_supplier_5",
+      "risk_supplier_10",
+      "risk_supplier_11",
+      "risk_supplier_16",
+      "risk_customer_7",
+      "risk_customer_8",
+      "risk_customer_9",
+      "risk_customer_17",
+      "risk_customer_20",
+      "risk_customer_21",
+      "risk_customer_23",
+      "risk_contractor_12",
+      "risk_contractor_16",
+      "risk_contractor_20"
+    ]
+  },
+  "by_document": {
+    "готовое решение_ риски поставщика при заключении договора по.docx": [
+      "risk_supplier_0",
+      "risk_supplier_1",
+      "risk_supplier_2",
+      "risk_supplier_3",
+      "risk_supplier_4",
+      "risk_supplier_5",
+      "risk_supplier_6",
+      "risk_supplier_7",
+      "risk_supplier_8",
+      "risk_supplier_9",
+      "risk_supplier_10",
+      "risk_supplier_11",
+      "risk_supplier_12",
+      "risk_supplier_13",
+      "risk_supplier_14",
+      "risk_supplier_15",
+      "risk_supplier_16",
+      "risk_supplier_17",
+      "risk_supplier_18",
+      "risk_supplier_19",
+      "risk_supplier_20",
+      "risk_supplier_21",
+      "risk_supplier_22"
+    ],
+    "готовое решение_ риски покупателя при заключении договора по.docx": [
+      "risk_customer_0",
+      "risk_customer_1",
+      "risk_customer_2",
+      "risk_customer_3",
+      "risk_customer_4",
+      "risk_customer_5",
+      "risk_customer_6",
+      "risk_customer_7",
+      "risk_customer_8",
+      "risk_customer_9",
+      "risk_customer_10",
+      "risk_customer_11",
+      "risk_customer_12",
+      "risk_customer_13",
+      "risk_customer_14",
+      "risk_customer_15",
+      "risk_customer_16",
+      "risk_customer_17",
+      "risk_customer_18",
+      "risk_customer_19",
+      "risk_customer_20",
+      "risk_customer_21",
+      "risk_customer_22",
+      "risk_customer_23",
+      "risk_customer_24",
+      "risk_customer_25"
+    ],
+    "готовое решение_ риски подрядчика при заключении договора по.docx": [
+      "risk_contractor_0",
+      "risk_contractor_1",
+      "risk_contractor_2",
+      "risk_contractor_3",
+      "risk_contractor_4",
+      "risk_contractor_5",
+      "risk_contractor_6",
+      "risk_contractor_7",
+      "risk_contractor_8",
+      "risk_contractor_9",
+      "risk_contractor_10",
+      "risk_contractor_11",
+      "risk_contractor_12",
+      "risk_contractor_13",
+      "risk_contractor_14",
+      "risk_contractor_15",
+      "risk_contractor_16",
+      "risk_contractor_17",
+      "risk_contractor_18",
+      "risk_contractor_19",
+      "risk_contractor_20",
+      "risk_contractor_21"
+    ],
+    "готовое решение_ договор возмездного оказания услуг физлицом.docx": [
+      "risk_services_individual_0",
+      "risk_services_individual_1",
+      "risk_services_individual_2",
+      "risk_services_individual_3"
+    ],
+    "готовое решение_ договор возмездного оказания услуг между юр.docx": [
+      "risk_services_legal_0",
+      "risk_services_legal_1",
+      "risk_services_legal_2",
+      "risk_services_legal_3",
+      "risk_services_legal_4",
+      "risk_services_legal_5",
+      "risk_services_legal_6",
+      "risk_services_legal_7",
+      "risk_services_legal_8",
+      "risk_services_legal_9",
+      "risk_services_legal_10"
+    ]
+  },
+  "by_keyword": {
+    "поставщика": [
+      "risk_supplier_0",
+      "risk_supplier_1",
+      "risk_supplier_2",
+      "risk_supplier_3",
+      "risk_supplier_4",
+      "risk_supplier_5",
+      "risk_supplier_6",
+      "risk_supplier_7",
+      "risk_supplier_8",
+      "risk_supplier_9",
+      "risk_supplier_10",
+      "risk_supplier_11",
+      "risk_supplier_12",
+      "risk_supplier_13",
+      "risk_supplier_14",
+      "risk_supplier_15",
+      "risk_supplier_16",
+      "risk_supplier_17",
+      "risk_supplier_18",
+      "risk_supplier_19",
+      "risk_supplier_20",
+      "risk_supplier_21",
+      "risk_supplier_22",
+      "risk_customer_10",
+      "risk_customer_13",
+      "risk_customer_16",
+      "risk_customer_22"
+    ],
+    "недостаточной": [
+      "risk_supplier_0",
+      "risk_customer_1"
+    ],
+    "конкретизации": [
+      "risk_supplier_0",
+      "risk_customer_1"
+    ],
+    "наименования": [
+      "risk_supplier_0",
+      "risk_customer_1"
+    ],
+    "товара": [
+      "risk_supplier_0",
+      "risk_supplier_1",
+      "risk_supplier_2",
+      "risk_supplier_4",
+      "risk_supplier_5",
+      "risk_supplier_7",
+      "risk_supplier_8",
+      "risk_supplier_9",
+      "risk_supplier_10",
+      "risk_supplier_11",
+      "risk_supplier_12",
+      "risk_supplier_14",
+      "risk_supplier_16",
+      "risk_supplier_18",
+      "risk_supplier_19",
+      "risk_supplier_20",
+      "risk_customer_1",
+      "risk_customer_2",
+      "risk_customer_7",
+      "risk_customer_9",
+      "risk_customer_15",
+      "risk_customer_17",
+      "risk_customer_18",
+      "risk_customer_19",
+      "risk_customer_21",
+      "risk_customer_24",
+      "risk_customer_25"
+    ],
+    "несогласовании": [
+      "risk_supplier_1",
+      "risk_supplier_6",
+      "risk_supplier_9",
+      "risk_supplier_10",
+      "risk_supplier_11",
+      "risk_supplier_12",
+      "risk_supplier_13",
+      "risk_supplier_15",
+      "risk_supplier_17",
+      "risk_supplier_18",
+      "risk_supplier_19",
+      "risk_supplier_20",
+      "risk_supplier_22",
+      "risk_customer_0",
+      "risk_customer_2",
+      "risk_customer_3",
+      "risk_customer_4",
+      "risk_customer_5",
+      "risk_customer_6",
+      "risk_customer_7",
+      "risk_customer_13",
+      "risk_customer_15",
+      "risk_customer_18",
+      "risk_customer_19",
+      "risk_customer_20",
+      "risk_customer_21",
+      "risk_customer_22",
+      "risk_customer_23",
+      "risk_customer_25",
+      "risk_contractor_0",
+      "risk_contractor_1",
+      "risk_contractor_2",
+      "risk_contractor_3",
+      "risk_contractor_6",
+      "risk_contractor_7",
+      "risk_contractor_9",
+      "risk_contractor_10",
+      "risk_contractor_12",
+      "risk_contractor_13",
+      "risk_contractor_14",
+      "risk_contractor_15",
+      "risk_contractor_16",
+      "risk_contractor_19",
+      "risk_contractor_20",
+      "risk_contractor_21"
+    ],
+    "количества": [
+      "risk_supplier_1"
+    ],
+    "согласовании": [
+      "risk_supplier_2",
+      "risk_supplier_3",
+      "risk_supplier_5",
+      "risk_supplier_7",
+      "risk_supplier_8",
+      "risk_supplier_14",
+      "risk_supplier_16",
+      "risk_supplier_21",
+      "risk_customer_9",
+      "risk_customer_11",
+      "risk_customer_12",
+      "risk_customer_14",
+      "risk_customer_16",
+      "risk_customer_17",
+      "risk_customer_24",
+      "risk_contractor_4",
+      "risk_contractor_5",
+      "risk_contractor_8",
+      "risk_contractor_11",
+      "risk_contractor_17",
+      "risk_contractor_18"
+    ],
+    "условия": [
+      "risk_supplier_2",
+      "risk_supplier_3",
+      "risk_supplier_5",
+      "risk_supplier_6",
+      "risk_supplier_7",
+      "risk_supplier_9",
+      "risk_supplier_10",
+      "risk_supplier_11",
+      "risk_supplier_12",
+      "risk_supplier_13",
+      "risk_supplier_14",
+      "risk_supplier_16",
+      "risk_supplier_19",
+      "risk_supplier_22",
+      "risk_customer_0",
+      "risk_customer_3",
+      "risk_customer_6",
+      "risk_customer_7",
+      "risk_customer_9",
+      "risk_customer_10",
+      "risk_customer_11",
+      "risk_customer_16",
+      "risk_customer_21",
+      "risk_customer_24",
+      "risk_customer_25",
+      "risk_contractor_1",
+      "risk_contractor_5",
+      "risk_contractor_7",
+      "risk_contractor_8",
+      "risk_contractor_9",
+      "risk_contractor_12",
+      "risk_contractor_14",
+      "risk_contractor_18",
+      "risk_contractor_19",
+      "risk_contractor_20",
+      "risk_contractor_21"
+    ],
+    "ассортименте": [
+      "risk_supplier_2"
+    ],
+    "комплекте": [
+      "risk_supplier_3",
+      "risk_customer_0",
+      "risk_customer_3"
+    ],
+    "отсутствии": [
+      "risk_supplier_4",
+      "risk_customer_10"
+    ],
+    "согласия": [
+      "risk_supplier_4"
+    ],
+    "покупателя": [
+      "risk_supplier_4",
+      "risk_supplier_11",
+      "risk_supplier_21",
+      "risk_customer_0",
+      "risk_customer_1",
+      "risk_customer_2",
+      "risk_customer_3",
+      "risk_customer_4",
+      "risk_customer_5",
+      "risk_customer_6",
+      "risk_customer_7",
+      "risk_customer_8",
+      "risk_customer_9",
+      "risk_customer_10",
+      "risk_customer_11",
+      "risk_customer_12",
+      "risk_customer_13",
+      "risk_customer_14",
+      "risk_customer_15",
+      "risk_customer_16",
+      "risk_customer_17",
+      "risk_customer_18",
+      "risk_customer_19",
+      "risk_customer_20",
+      "risk_customer_21",
+      "risk_customer_22",
+      "risk_customer_23",
+      "risk_customer_24",
+      "risk_customer_25"
+    ],
+    "приобретение": [
+      "risk_supplier_4"
+    ],
+    "обременением": [
+      "risk_supplier_4"
+    ],
+    "затаривании": [
+      "risk_supplier_5"
+    ],
+    "определенным": [
+      "risk_supplier_5"
+    ],
+    "способом": [
+      "risk_supplier_5"
+    ],
+    "распределении": [
+      "risk_supplier_6",
+      "risk_customer_6",
+      "risk_customer_21"
+    ],
+    "расходов": [
+      "risk_supplier_6",
+      "risk_customer_6",
+      "risk_customer_21"
+    ],
+    "возврату": [
+      "risk_supplier_6",
+      "risk_customer_6"
+    ],
+    "многооборотной": [
+      "risk_supplier_6",
+      "risk_customer_5",
+      "risk_customer_6"
+    ],
+    "тары": [
+      "risk_supplier_6",
+      "risk_customer_5",
+      "risk_customer_6"
+    ],
+    "передаче": [
+      "risk_supplier_7"
+    ],
+    "нового": [
+      "risk_supplier_7"
+    ],
+    "сторонами": [
+      "risk_supplier_8",
+      "risk_supplier_16"
+    ],
+    "собственных": [
+      "risk_supplier_8"
+    ],
+    "требований": [
+      "risk_supplier_8",
+      "risk_customer_4"
+    ],
+    "качеству": [
+      "risk_supplier_8"
+    ],
+    "какие": [
+      "risk_supplier_9",
+      "risk_services_individual_0",
+      "risk_services_legal_0"
+    ],
+    "составляющие": [
+      "risk_supplier_9"
+    ],
+    "комплектующие": [
+      "risk_supplier_9"
+    ],
+    "части": [
+      "risk_supplier_9"
+    ],
+    "распространяется": [
+      "risk_supplier_9"
+    ],
+    "гарантия": [
+      "risk_supplier_9"
+    ],
+    "качества": [
+      "risk_supplier_9"
+    ],
+    "сроке": [
+      "risk_supplier_10",
+      "risk_customer_11"
+    ],
+    "замены": [
+      "risk_supplier_10",
+      "risk_supplier_11"
+    ],
+    "некачественного": [
+      "risk_supplier_10",
+      "risk_supplier_11"
+    ],
+    "устранения": [
+      "risk_supplier_10"
+    ],
+    "недостатков": [
+      "risk_supplier_10"
+    ],
+    "доставке": [
+      "risk_supplier_11",
+      "risk_customer_21"
+    ],
+    "счет": [
+      "risk_supplier_11",
+      "risk_customer_16"
+    ],
+    "осуществления": [
+      "risk_supplier_11"
+    ],
+    "ремонта": [
+      "risk_supplier_11"
+    ],
+    "возможности": [
+      "risk_supplier_12"
+    ],
+    "одностороннего": [
+      "risk_supplier_12"
+    ],
+    "изменения": [
+      "risk_supplier_12"
+    ],
+    "цены": [
+      "risk_supplier_12",
+      "risk_customer_14",
+      "risk_contractor_13",
+      "risk_services_legal_3"
+    ],
+    "какого": [
+      "risk_supplier_13"
+    ],
+    "момента": [
+      "risk_supplier_13",
+      "risk_supplier_21",
+      "risk_customer_16"
+    ],
+    "товар": [
+      "risk_supplier_13",
+      "risk_supplier_15",
+      "risk_supplier_17",
+      "risk_customer_13",
+      "risk_customer_16"
+    ],
+    "считается": [
+      "risk_supplier_13",
+      "risk_customer_16"
+    ],
+    "оплаченным": [
+      "risk_supplier_13",
+      "risk_customer_16"
+    ],
+    "оплате": [
+      "risk_supplier_14",
+      "risk_customer_19"
+    ],
+    "третьим": [
+      "risk_supplier_14",
+      "risk_customer_17"
+    ],
+    "лицом": [
+      "risk_supplier_14",
+      "risk_customer_17"
+    ],
+    "плательщиком": [
+      "risk_supplier_14",
+      "risk_customer_17"
+    ],
+    "срока": [
+      "risk_supplier_15",
+      "risk_supplier_17",
+      "risk_customer_5",
+      "risk_customer_13",
+      "risk_customer_15",
+      "risk_customer_22",
+      "risk_customer_23",
+      "risk_contractor_15",
+      "risk_services_legal_10"
+    ],
+    "предоплаты": [
+      "risk_supplier_15"
+    ],
+    "ситуации": [
+      "risk_supplier_15"
+    ],
+    "когда": [
+      "risk_supplier_15"
+    ],
+    "передан": [
+      "risk_supplier_15"
+    ],
+    "поступления": [
+      "risk_supplier_15"
+    ],
+    "полном": [
+      "risk_supplier_15"
+    ],
+    "объеме": [
+      "risk_supplier_15"
+    ],
+    "способ": [
+      "risk_supplier_16"
+    ],
+    "поставки": [
+      "risk_supplier_16",
+      "risk_customer_18",
+      "risk_customer_20"
+    ],
+    "определяется": [
+      "risk_supplier_16"
+    ],
+    "дополнительно": [
+      "risk_supplier_16"
+    ],
+    "обязанности": [
+      "risk_supplier_17",
+      "risk_customer_13",
+      "risk_customer_22",
+      "risk_contractor_4",
+      "risk_contractor_18"
+    ],
+    "допоставить": [
+      "risk_supplier_17"
+    ],
+    "пределами": [
+      "risk_supplier_17",
+      "risk_customer_22"
+    ],
+    "действия": [
+      "risk_supplier_17",
+      "risk_customer_22",
+      "risk_services_legal_10"
+    ],
+    "договора": [
+      "risk_supplier_17",
+      "risk_customer_8",
+      "risk_customer_19",
+      "risk_customer_22",
+      "risk_contractor_1",
+      "risk_contractor_10",
+      "risk_contractor_11",
+      "risk_contractor_20",
+      "risk_contractor_21",
+      "risk_services_individual_2",
+      "risk_services_individual_3",
+      "risk_services_legal_7",
+      "risk_services_legal_10"
+    ],
+    "получателя": [
+      "risk_supplier_18"
+    ],
+    "применении": [
+      "risk_supplier_19",
+      "risk_contractor_20"
+    ],
+    "правил": [
+      "risk_supplier_19"
+    ],
+    "приемки": [
+      "risk_supplier_19",
+      "risk_contractor_19"
+    ],
+    "соответствии": [
+      "risk_supplier_19",
+      "risk_customer_7"
+    ],
+    "инструкциями": [
+      "risk_supplier_19"
+    ],
+    "перехода": [
+      "risk_supplier_20"
+    ],
+    "права": [
+      "risk_supplier_20",
+      "risk_supplier_21",
+      "risk_contractor_1",
+      "risk_contractor_10",
+      "risk_contractor_11",
+      "risk_contractor_17",
+      "risk_contractor_21"
+    ],
+    "собственности": [
+      "risk_supplier_20"
+    ],
+    "момент": [
+      "risk_supplier_20"
+    ],
+    "оплаты": [
+      "risk_supplier_20",
+      "risk_supplier_21",
+      "risk_customer_15",
+      "risk_customer_17",
+      "risk_contractor_15",
+      "risk_contractor_16",
+      "risk_services_legal_4",
+      "risk_services_legal_5",
+      "risk_services_legal_8"
+    ],
+    "поставке": [
+      "risk_supplier_20",
+      "risk_customer_0",
+      "risk_customer_3"
+    ],
+    "кредит": [
+      "risk_supplier_20",
+      "risk_customer_18"
+    ],
+    "распоряжаться": [
+      "risk_supplier_21"
+    ],
+    "товаром": [
+      "risk_supplier_21"
+    ],
+    "исключении": [
+      "risk_supplier_22",
+      "risk_contractor_1",
+      "risk_contractor_21"
+    ],
+    "упущенной": [
+      "risk_supplier_22"
+    ],
+    "выгоды": [
+      "risk_supplier_22"
+    ],
+    "состава": [
+      "risk_supplier_22"
+    ],
+    "возмещаемых": [
+      "risk_supplier_22"
+    ],
+    "убытков": [
+      "risk_supplier_22",
+      "risk_services_legal_9"
+    ],
+    "товаров": [
+      "risk_customer_0",
+      "risk_customer_3"
+    ],
+    "перечня": [
+      "risk_customer_2"
+    ],
+    "комплектующих": [
+      "risk_customer_2"
+    ],
+    "частей": [
+      "risk_customer_2"
+    ],
+    "особых": [
+      "risk_customer_4"
+    ],
+    "таре": [
+      "risk_customer_4"
+    ],
+    "упаковке": [
+      "risk_customer_4"
+    ],
+    "возврата": [
+      "risk_customer_5"
+    ],
+    "конкретному": [
+      "risk_customer_7"
+    ],
+    "госту": [
+      "risk_customer_7"
+    ],
+    "указании": [
+      "risk_customer_8"
+    ],
+    "цели": [
+      "risk_customer_8"
+    ],
+    "использования": [
+      "risk_customer_8"
+    ],
+    "после": [
+      "risk_customer_8"
+    ],
+    "заключения": [
+      "risk_customer_8",
+      "risk_contractor_20"
+    ],
+    "продаже": [
+      "risk_customer_9"
+    ],
+    "бывшего": [
+      "risk_customer_9"
+    ],
+    "употреблении": [
+      "risk_customer_9"
+    ],
+    "договоре": [
+      "risk_customer_10"
+    ],
+    "гарантийных": [
+      "risk_customer_10"
+    ],
+    "обязательствах": [
+      "risk_customer_10"
+    ],
+    "гарантийном": [
+      "risk_customer_11"
+    ],
+    "продолжительностью": [
+      "risk_customer_11"
+    ],
+    "менее": [
+      "risk_customer_11"
+    ],
+    "двух": [
+      "risk_customer_11"
+    ],
+    "дополнительных": [
+      "risk_customer_12"
+    ],
+    "условий": [
+      "risk_customer_12",
+      "risk_customer_19",
+      "risk_contractor_0",
+      "risk_contractor_6"
+    ],
+    "гарантийного": [
+      "risk_customer_12"
+    ],
+    "обслуживания": [
+      "risk_customer_12"
+    ],
+    "передать": [
+      "risk_customer_13"
+    ],
+    "определенный": [
+      "risk_customer_13"
+    ],
+    "срок": [
+      "risk_customer_13",
+      "risk_services_individual_3"
+    ],
+    "истечения": [
+      "risk_customer_13"
+    ],
+    "годности": [
+      "risk_customer_13"
+    ],
+    "новой": [
+      "risk_customer_14"
+    ],
+    "путем": [
+      "risk_customer_14"
+    ],
+    "подписания": [
+      "risk_customer_14"
+    ],
+    "накладной": [
+      "risk_customer_14"
+    ],
+    "зачисления": [
+      "risk_customer_16"
+    ],
+    "средств": [
+      "risk_customer_16"
+    ],
+    "расчетный": [
+      "risk_customer_16"
+    ],
+    "отмены": [
+      "risk_customer_18"
+    ],
+    "залога": [
+      "risk_customer_18"
+    ],
+    "основании": [
+      "risk_customer_18",
+      "risk_contractor_1",
+      "risk_contractor_21"
+    ],
+    "закона": [
+      "risk_customer_18"
+    ],
+    "случае": [
+      "risk_customer_18"
+    ],
+    "существенных": [
+      "risk_customer_19"
+    ],
+    "рассрочку": [
+      "risk_customer_19"
+    ],
+    "строго": [
+      "risk_customer_20"
+    ],
+    "определенному": [
+      "risk_customer_20"
+    ],
+    "сроку": [
+      "risk_customer_20"
+    ],
+    "транспортных": [
+      "risk_customer_21"
+    ],
+    "восполнить": [
+      "risk_customer_22"
+    ],
+    "недопоставку": [
+      "risk_customer_22"
+    ],
+    "направления": [
+      "risk_customer_23"
+    ],
+    "поставщику": [
+      "risk_customer_23"
+    ],
+    "отгрузочной": [
+      "risk_customer_23"
+    ],
+    "разнарядки": [
+      "risk_customer_23"
+    ],
+    "приемке": [
+      "risk_customer_24"
+    ],
+    "требованиям": [
+      "risk_customer_24"
+    ],
+    "инструкций": [
+      "risk_customer_24"
+    ],
+    "выборочной": [
+      "risk_customer_25"
+    ],
+    "проверке": [
+      "risk_customer_25"
+    ],
+    "подрядчика": [
+      "risk_contractor_0",
+      "risk_contractor_1",
+      "risk_contractor_2",
+      "risk_contractor_3",
+      "risk_contractor_4",
+      "risk_contractor_5",
+      "risk_contractor_6",
+      "risk_contractor_7",
+      "risk_contractor_8",
+      "risk_contractor_9",
+      "risk_contractor_10",
+      "risk_contractor_12",
+      "risk_contractor_13",
+      "risk_contractor_14",
+      "risk_contractor_15",
+      "risk_contractor_16",
+      "risk_contractor_17",
+      "risk_contractor_18",
+      "risk_contractor_19",
+      "risk_contractor_20",
+      "risk_contractor_21"
+    ],
+    "начальном": [
+      "risk_contractor_0",
+      "risk_contractor_6"
+    ],
+    "конечном": [
+      "risk_contractor_0",
+      "risk_contractor_6"
+    ],
+    "сроках": [
+      "risk_contractor_0",
+      "risk_contractor_6"
+    ],
+    "выполнения": [
+      "risk_contractor_0",
+      "risk_contractor_6"
+    ],
+    "работ": [
+      "risk_contractor_0",
+      "risk_contractor_5",
+      "risk_contractor_6",
+      "risk_contractor_18"
+    ],
+    "заказчика": [
+      "risk_contractor_1",
+      "risk_contractor_2",
+      "risk_contractor_5",
+      "risk_contractor_7",
+      "risk_contractor_8",
+      "risk_contractor_9",
+      "risk_contractor_10",
+      "risk_contractor_11",
+      "risk_contractor_12",
+      "risk_contractor_17",
+      "risk_contractor_21"
+    ],
+    "отказ": [
+      "risk_contractor_1",
+      "risk_contractor_21"
+    ],
+    "исполнения": [
+      "risk_contractor_1",
+      "risk_contractor_21"
+    ],
+    "приложения": [
+      "risk_contractor_2"
+    ],
+    "содержащего": [
+      "risk_contractor_2"
+    ],
+    "задание": [
+      "risk_contractor_2",
+      "risk_contractor_4"
+    ],
+    "сметы": [
+      "risk_contractor_3"
+    ],
+    "составить": [
+      "risk_contractor_4"
+    ],
+    "выполнение": [
+      "risk_contractor_4"
+    ],
+    "работы": [
+      "risk_contractor_4",
+      "risk_contractor_13",
+      "risk_contractor_14",
+      "risk_contractor_15",
+      "risk_contractor_16",
+      "risk_contractor_17",
+      "risk_contractor_19"
+    ],
+    "праве": [
+      "risk_contractor_5"
+    ],
+    "самостоятельно": [
+      "risk_contractor_5"
+    ],
+    "устранять": [
+      "risk_contractor_5"
+    ],
+    "недостатки": [
+      "risk_contractor_5"
+    ],
+    "выполненных": [
+      "risk_contractor_5"
+    ],
+    "содействии": [
+      "risk_contractor_7",
+      "risk_contractor_8"
+    ],
+    "посредством": [
+      "risk_contractor_8"
+    ],
+    "предоставления": [
+      "risk_contractor_8"
+    ],
+    "документов": [
+      "risk_contractor_8"
+    ],
+    "перечень": [
+      "risk_contractor_8"
+    ],
+    "которых": [
+      "risk_contractor_8"
+    ],
+    "указан": [
+      "risk_contractor_8"
+    ],
+    "генерального": [
+      "risk_contractor_9",
+      "risk_contractor_10",
+      "risk_contractor_12"
+    ],
+    "расчетах": [
+      "risk_contractor_9"
+    ],
+    "непосредственно": [
+      "risk_contractor_9"
+    ],
+    "субподрядчиком": [
+      "risk_contractor_9"
+    ],
+    "предъявлять": [
+      "risk_contractor_10",
+      "risk_contractor_11",
+      "risk_contractor_17"
+    ],
+    "субподрядчику": [
+      "risk_contractor_10",
+      "risk_contractor_11"
+    ],
+    "претензии": [
+      "risk_contractor_10",
+      "risk_contractor_11",
+      "risk_contractor_17"
+    ],
+    "связи": [
+      "risk_contractor_10",
+      "risk_contractor_11"
+    ],
+    "нарушением": [
+      "risk_contractor_10",
+      "risk_contractor_11"
+    ],
+    "субподряда": [
+      "risk_contractor_10",
+      "risk_contractor_11"
+    ],
+    "субподрядчика": [
+      "risk_contractor_11",
+      "risk_contractor_12"
+    ],
+    "солидарной": [
+      "risk_contractor_12"
+    ],
+    "ответственности": [
+      "risk_contractor_12"
+    ],
+    "перед": [
+      "risk_contractor_12"
+    ],
+    "входит": [
+      "risk_contractor_14"
+    ],
+    "цену": [
+      "risk_contractor_14"
+    ],
+    "выполненной": [
+      "risk_contractor_15"
+    ],
+    "предварительной": [
+      "risk_contractor_16"
+    ],
+    "аванса": [
+      "risk_contractor_16"
+    ],
+    "недостаткам": [
+      "risk_contractor_17"
+    ],
+    "принятой": [
+      "risk_contractor_17"
+    ],
+    "проверки": [
+      "risk_contractor_17"
+    ],
+    "предоставить": [
+      "risk_contractor_18"
+    ],
+    "информацию": [
+      "risk_contractor_18"
+    ],
+    "использовании": [
+      "risk_contractor_18"
+    ],
+    "результата": [
+      "risk_contractor_18",
+      "risk_contractor_19"
+    ],
+    "случайной": [
+      "risk_contractor_19"
+    ],
+    "гибели": [
+      "risk_contractor_19"
+    ],
+    "несет": [
+      "risk_contractor_19"
+    ],
+    "заказчик": [
+      "risk_contractor_19"
+    ],
+    "положений": [
+      "risk_contractor_20"
+    ],
+    "отношениям": [
+      "risk_contractor_20"
+    ],
+    "возникшим": [
+      "risk_contractor_20"
+    ],
+    "услуги": [
+      "risk_services_individual_0",
+      "risk_services_individual_1",
+      "risk_services_legal_0"
+    ],
+    "заказываете": [
+      "risk_services_individual_0"
+    ],
+    "порядок": [
+      "risk_services_individual_1",
+      "risk_services_legal_4"
+    ],
+    "оказания": [
+      "risk_services_individual_1",
+      "risk_services_legal_1"
+    ],
+    "цена": [
+      "risk_services_individual_2",
+      "risk_services_legal_2"
+    ],
+    "оказываете": [
+      "risk_services_legal_0"
+    ],
+    "сроки": [
+      "risk_services_legal_1"
+    ],
+    "услуг": [
+      "risk_services_legal_1",
+      "risk_services_legal_2",
+      "risk_services_legal_3"
+    ],
+    "изменение": [
+      "risk_services_legal_3"
+    ],
+    "проценты": [
+      "risk_services_legal_5"
+    ],
+    "сумму": [
+      "risk_services_legal_5"
+    ],
+    "привлечение": [
+      "risk_services_legal_6"
+    ],
+    "субисполнителей": [
+      "risk_services_legal_6"
+    ],
+    "условие": [
+      "risk_services_legal_7"
+    ],
+    "одностороннем": [
+      "risk_services_legal_7"
+    ],
+    "отказе": [
+      "risk_services_legal_7"
+    ],
+    "неустойка": [
+      "risk_services_legal_8"
+    ],
+    "просрочку": [
+      "risk_services_legal_8"
+    ],
+    "ограничение": [
+      "risk_services_legal_9"
+    ],
+    "возмещения": [
+      "risk_services_legal_9"
+    ],
+    "прекращение": [
+      "risk_services_legal_10"
+    ],
+    "обязательств": [
+      "risk_services_legal_10"
+    ],
+    "окончании": [
+      "risk_services_legal_10"
+    ]
+  }
+}
