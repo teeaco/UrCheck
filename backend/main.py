@@ -6,6 +6,7 @@ from pathlib import Path
 
 from config.setting import settings
 from routes.document import router as documents_router
+from routes.auth import router as auth_router
 
 app = FastAPI()
 
@@ -18,6 +19,7 @@ app.add_middleware(
 )
 
 app.include_router(documents_router)
+app.include_router(auth_router)
 
 
 # ==================== РАЗДАЧА HTML ФРОНТЕНДА ====================

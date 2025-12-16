@@ -1,9 +1,15 @@
-from fastapi import APIRouter, File, UploadFile, HTTPException, status
+from fastapi import APIRouter, File, UploadFile, HTTPException, status, Depends
 from pathlib import Path
 
 from services.file_handler import FileHandler
+from services.auth import AuthService
 from services.llm_service import analyze_document
 from models.schemas import DocumentAnalysisResponse
+
+from dependencies import get_db
+from services.auth import AuthService
+from models.user import User
+from config.setting import settings
 
 router = APIRouter(
     prefix="/api",
@@ -12,6 +18,16 @@ router = APIRouter(
 )
 
 file_handler = FileHandler()
+
+@router.get("/")
+async def get_documents(current_user: User = Depends(AuthService.get_current_user)):
+    current_user: User = Depends(AuthService.get_current_user),
+    db: Session = Depends(get_db)
+    return {
+        "message": "Ваши документы",
+        "user": current_user.username,
+        "user_id": current_user.id
+    }
 
 @router.post(
     "/upload",
