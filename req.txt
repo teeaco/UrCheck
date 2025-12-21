@@ -2,3 +2,6 @@ fastapi[all]
 requests
 python-docx
 openai
+chromadb 
+sentence-transformers
+tabulate
