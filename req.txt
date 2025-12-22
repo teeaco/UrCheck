@@ -5,3 +5,5 @@ openai
 chromadb 
 sentence-transformers
 tabulate
+asyncpg 
+bcrypt
