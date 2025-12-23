@@ -12,7 +12,7 @@ def main():
     count = chroma_manager.add_risks_from_json("risks.json")
     
     # 3. Тестовый поиск
-    print("\n🔍 Тестовый поиск:")
+    print("\n Тестовый поиск:")
     results = chroma_manager.search_risks("риск несогласования срока", n_results=3)
     
     for i, result in enumerate(results):
@@ -22,13 +22,13 @@ def main():
     
     # 4. Статистика
     stats = chroma_manager.get_statistics()
-    print(f"\n📊 Статистика: {stats['total_risks']} рисков в базе")
+    print(f"\n Статистика: {stats['total_risks']} рисков в базе")
     
     # 5. Сохраняем информацию о коллекции
     with open("data/chroma_info.json", "w", encoding="utf-8") as f:
         json.dump(stats, f, ensure_ascii=False, indent=2)
     
-    print("\n✅ Готово! ChromaDB создана в папке 'chroma_db/'")
+    print("\n Готово! ChromaDB создана в папке 'chroma_db/'")
 
 if __name__ == "__main__":
     main()
