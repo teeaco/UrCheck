@@ -1,5 +1,6 @@
 from fastapi import APIRouter, File, UploadFile, HTTPException, status, Depends
 from pathlib import Path
+from sqlalchemy.orm import Session
 
 from services.file_handler import FileHandler
 from services.auth import AuthService
@@ -21,8 +22,6 @@ file_handler = FileHandler()
 
 @router.get("/")
 async def get_documents(current_user: User = Depends(AuthService.get_current_user)):
-    current_user: User = Depends(AuthService.get_current_user),
-    db: Session = Depends(get_db)
     return {
         "message": "Ваши документы",
         "user": current_user.username,
@@ -36,7 +35,7 @@ async def get_documents(current_user: User = Depends(AuthService.get_current_use
     summary="Загрузить и проанализировать документ",
     description="Загружает файл .docx, извлекает текст и отправляет на анализ LLM",
 )
-async def upload_and_analyze_document(file: UploadFile = File(...)) -> DocumentAnalysisResponse:
+async def upload_and_analyze_document(file: UploadFile = File(...), current_user: User = Depends(AuthService.get_current_user)) -> DocumentAnalysisResponse:
     
     try:
         file_content = await file.read()

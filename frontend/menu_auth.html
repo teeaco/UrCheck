@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЮрCheck - Разбирайтесь в договорах и избегайте рисков</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 0px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            background: linear-gradient(180deg, #46abae, transparent);
+            padding-inline: 40px;
+            padding-block: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-size: 30px;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { background: #46abae; color: white; border: none; border-radius: 15px; padding: 10px 20px; cursor: pointer; }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+        
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .report-label {
+                width: 150px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <img src="/static/icon-logo.svg" width="128" height="128" style="margin: -10px;">
+            <h1>ЮрCheck - Разбирайтесь в договорах и избегайте рисков</h1>
+    </header>
+
+    <div class="container">
+
+        <form class="upload-section" id="registrationForm">
+            <h2>Регистрация</h2>
+            <div class="form-group">
+                <label for="email">Email*:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="username">Имя пользователя*:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Пароль*:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password_confirm">Подтверждение пароля*:</label>
+                <input type="password" id="password_confirm" name="password_confirm" required>
+            </div>
+            
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+        
+        
+        <footer>
+            <p>ЮрЧек &copy; 2025 | Поддерживаемые форматы: DOCX | ИУ5-55Б</p>
+        </footer>
+    </div>
+
+    <script>
+        const API_BASE = 'http://127.0.0.1:8000';
+
+        const registrationForm = document.getElementById('registrationForm');
+        
+        registrationForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const passwordConfirm = document.getElementById('password_confirm').value;
+            
+            if (!username || !email || !password) {
+                alert('Заполните все поля!');
+                return;
+            }
+            if (password !== passwordConfirm) {
+                alert('Пароли не совпадают');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        email: email,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert('Вы успешно зарегистрировались. Теперь войдите в ЮрЧек аккаунт');
+                    window.open('../static/menu_login.html', '_blank');
+                } else {
+                    alert(`Ошибка регистрации: ${data.detail || 'Непонятная ошибка'}`);
+                }
+            } catch (error) {
+                alert(`Ошибка: ${error.message}`);
+            }
+        });
+        
+    </script>
+</body>
+</html>

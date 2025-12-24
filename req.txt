@@ -7,3 +7,6 @@ sentence-transformers
 tabulate
 asyncpg 
 bcrypt
+sqlalchemy
+passlib[bcrypt]
+python-jose[cryptography]

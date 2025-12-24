@@ -4,6 +4,7 @@ from openai import AsyncOpenAI
 
 client = AsyncOpenAI(api_key = "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")  # API-ключ должен быть в переменной окружения OPENAI_API_KEY
 
+from config.setting import settings
 
 SGR_SCHEMA = {
   "case_info": {

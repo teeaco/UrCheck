@@ -22,12 +22,16 @@ app.include_router(documents_router)
 app.include_router(auth_router)
 
 
+frontend_dir = Path(__file__).parent.parent / "frontend"
+print(frontend_dir)
+app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
+
 # ==================== РАЗДАЧА HTML ФРОНТЕНДА ====================
 
 @app.get("/")
 async def serve_frontend():
     """Раздаём HTML фронтенд"""
-    frontend_path = Path(__file__).parent.parent / "frontend/first_test_frontend_v-3.html"
+    frontend_path = frontend_dir / "menu_auth.html"
     return FileResponse(frontend_path)
 
 

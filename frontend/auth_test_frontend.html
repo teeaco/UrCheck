@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Test Frontend</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .user-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        
+        .token-display {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            word-break: break-all;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Authentication Test Frontend</h1>
+        
+        <!-- Login Section -->
+        <div id="loginSection" class="section">
+            <h2>Login</h2>
+            <div>
+                <input type="text" id="loginUsername" placeholder="Username" required>
+                <input type="password" id="loginPassword" placeholder="Password" required>
+            </div>
+            <button onclick="login()">Login</button>
+            <div id="loginStatus"></div>
+        </div>
+        
+        <!-- Register Section -->
+        <div id="registerSection" class="section">
+            <h2>Register</h2>
+            <div>
+                <input type="text" id="registerUsername" placeholder="Username" required>
+                <input type="email" id="registerEmail" placeholder="Email" required>
+                <input type="password" id="registerPassword" placeholder="Password" required>
+            </div>
+            <button onclick="register()">Register</button>
+            <div id="registerStatus"></div>
+        </div>
+        
+        <!-- Authenticated Section -->
+        <div id="authenticatedSection" class="section hidden">
+            <h2>Authenticated</h2>
+            <div id="userInfo" class="user-info"></div>
+            <button onclick="logout()">Logout</button>
+            <button onclick="refreshToken()">Refresh Token</button>
+            <button onclick="getDocuments()">Get Documents</button>
+            <button onclick="showTokens()">Show Tokens</button>
+            
+            <div id="tokenDisplay" class="token-display hidden"></div>
+            <div id="authStatus"></div>
+        </div>
+        
+        <!-- Document Upload Section -->
+        <div id="documentSection" class="section hidden">
+            <h2>Upload Document</h2>
+            <input type="file" id="documentFile" accept=".docx">
+            <button onclick="uploadDocument()">Upload and Analyze</button>
+            <div id="documentStatus"></div>
+            <div id="documentResult"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://127.0.0.1:8000';
+        
+        // Check authentication status on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (isAuthenticated()) {
+                showAuthenticatedView();
+            }
+        });
+        
+        // Authentication functions
+        function getAccessToken() {
+            return localStorage.getItem('access_token');
+        }
+        
+        function getRefreshToken() {
+            return localStorage.getItem('refresh_token');
+        }
+        
+        function storeTokens(accessToken, refreshToken) {
+            localStorage.setItem('access_token', accessToken);
+            localStorage.setItem('refresh_token', refreshToken);
+        }
+        
+        function clearTokens() {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+        }
+        
+        function isAuthenticated() {
+            const token = getAccessToken();
+            if (!token) return false;
+            
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                const exp = payload.exp;
+                return Date.now() < exp * 1000;
+            } catch (e) {
+                return false;
+            }
+        }
+        
+        async function apiCall(endpoint, options = {}) {
+            const token = getAccessToken();
+            const headers = {
+                'Content-Type': 'application/json',
+                ...options.headers
+            };
+            
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+            
+            const response = await fetch(`${API_BASE}${endpoint}`, {
+                ...options,
+                headers
+            });
+            
+            return response;
+        }
+        
+        async function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const statusDiv = document.getElementById('loginStatus');
+            
+            if (!username || !password) {
+                showStatus(statusDiv, 'Please enter both username and password', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    storeTokens(data.access_token, data.refresh_token);
+                    showStatus(statusDiv, 'Login successful!', 'success');
+                    showAuthenticatedView();
+                    // Clear login form
+                    document.getElementById('loginUsername').value = '';
+                    document.getElementById('loginPassword').value = '';
+                } else {
+                    showStatus(statusDiv, `Login failed: ${data.detail || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                showStatus(statusDiv, `Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function register() {
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const statusDiv = document.getElementById('registerStatus');
+            
+            if (!username || !email || !password) {
+                showStatus(statusDiv, 'Please fill all fields', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        email: email,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showStatus(statusDiv, 'Registration successful! You can now login.', 'success');
+                    // Clear register form
+                    document.getElementById('registerUsername').value = '';
+                    document.getElementById('registerEmail').value = '';
+                    document.getElementById('registerPassword').value = '';
+                } else {
+                    showStatus(statusDiv, `Registration failed: ${data.detail || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                showStatus(statusDiv, `Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function refreshToken() {
+            const refreshToken = getRefreshToken();
+            const statusDiv = document.getElementById('authStatus');
+            
+            if (!refreshToken) {
+                showStatus(statusDiv, 'No refresh token available', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/auth/refresh`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        refresh_token: refreshToken
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    storeTokens(data.access_token, data.refresh_token);
+                    showStatus(statusDiv, 'Token refreshed successfully!', 'success');
+                } else {
+                    showStatus(statusDiv, `Token refresh failed: ${data.detail || 'Unknown error'}`, 'error');
+                    logout();
+                }
+            } catch (error) {
+                showStatus(statusDiv, `Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function logout() {
+            if (isAuthenticated()) {
+                try {
+                    await apiCall('/auth/logout', { method: 'POST' });
+                } catch (error) {
+                    console.error('Logout error:', error);
+                }
+            }
+            
+            clearTokens();
+            showLoginView();
+            document.getElementById('authStatus').innerHTML = '';
+        }
+        
+        async function getDocuments() {
+            const statusDiv = document.getElementById('authStatus');
+            
+            try {
+                const response = await apiCall('/api/', { method: 'GET' });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showStatus(statusDiv, `Documents retrieved for user: ${data.user}`, 'success');
+                } else {
+                    const errorData = await response.json().catch(() => ({}));
+                    showStatus(statusDiv, `Get documents failed: ${errorData.detail || 'Unknown error'}`, 'error');
+                    if (response.status === 401) {
+                        logout();
+                    }
+                }
+            } catch (error) {
+                showStatus(statusDiv, `Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function uploadDocument() {
+            const fileInput = document.getElementById('documentFile');
+            const statusDiv = document.getElementById('documentStatus');
+            const resultDiv = document.getElementById('documentResult');
+            
+            if (!fileInput.files[0]) {
+                showStatus(statusDiv, 'Please select a file', 'error');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            if (!file.name.toLowerCase().endsWith('.docx')) {
+                showStatus(statusDiv, 'Only .docx files are allowed', 'error');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            try {
+                showStatus(statusDiv, 'Uploading...', 'success');
+                
+                const token = getAccessToken();
+                const response = await fetch(`${API_BASE}/api/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showStatus(statusDiv, 'Upload successful!', 'success');
+                    resultDiv.innerHTML = `
+                        <h3>Analysis Result:</h3>
+                        <p><strong>File:</strong> ${data.file_name}</p>
+                        <p><strong>Success:</strong> ${data.success ? 'Yes' : 'No'}</p>
+                        <div><strong>Result:</strong><br>${data.result_text}</div>
+                        ${data.message ? `<p><strong>Message:</strong> ${data.message}</p>` : ''}
+                    `;
+                } else {
+                    const errorData = await response.json().catch(() => ({}));
+                    showStatus(statusDiv, `Upload failed: ${errorData.detail || 'Unknown error'}`, 'error');
+                    if (response.status === 401) {
+                        logout();
+                    }
+                }
+            } catch (error) {
+                showStatus(statusDiv, `Error: ${error.message}`, 'error');
+            }
+        }
+        
+        function showTokens() {
+            const tokenDisplay = document.getElementById('tokenDisplay');
+            const accessToken = getAccessToken();
+            const refreshToken = getRefreshToken();
+            
+            if (accessToken) {
+                // Decode access token to show info
+                try {
+                    const payload = JSON.parse(atob(accessToken.split('.')[1]));
+                    const expDate = new Date(payload.exp * 1000);
+                    const isExpired = Date.now() >= payload.exp * 1000;
+                    
+                    tokenDisplay.innerHTML = `
+                        <strong>Access Token:</strong><br>
+                        Username: ${payload.sub}<br>
+                        Type: ${payload.type}<br>
+                        Expires: ${expDate} ${isExpired ? '(EXPIRED)' : ''}<br>
+                        Raw: ${accessToken.substring(0, 50)}...
+                    `;
+                } catch (e) {
+                    tokenDisplay.innerHTML = `<strong>Access Token:</strong><br>Cannot decode token`;
+                }
+            }
+            
+            if (refreshToken) {
+                try {
+                    const payload = JSON.parse(atob(refreshToken.split('.')[1]));
+                    const expDate = new Date(payload.exp * 1000);
+                    const isExpired = Date.now() >= payload.exp * 1000;
+                    
+                    tokenDisplay.innerHTML += `
+                        <br><br><strong>Refresh Token:</strong><br>
+                        Username: ${payload.sub}<br>
+                        Type: ${payload.type}<br>
+                        Expires: ${expDate} ${isExpired ? '(EXPIRED)' : ''}<br>
+                        Raw: ${refreshToken.substring(0, 50)}...
+                    `;
+                } catch (e) {
+                    tokenDisplay.innerHTML += `<br><br><strong>Refresh Token:</strong><br>Cannot decode token`;
+                }
+            }
+            
+            tokenDisplay.classList.remove('hidden');
+        }
+        
+        function showAuthenticatedView() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('registerSection').classList.add('hidden');
+            document.getElementById('authenticatedSection').classList.remove('hidden');
+            document.getElementById('documentSection').classList.remove('hidden');
+            
+            // Display user info
+            try {
+                const token = getAccessToken();
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                document.getElementById('userInfo').innerHTML = `
+                    <strong>Logged in as:</strong> ${payload.sub}<br>
+                    <strong>Token type:</strong> ${payload.type}
+                `;
+            } catch (e) {
+                document.getElementById('userInfo').innerHTML = '<strong>Logged in</strong>';
+            }
+        }
+        
+        function showLoginView() {
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('registerSection').classList.remove('hidden');
+            document.getElementById('authenticatedSection').classList.add('hidden');
+            document.getElementById('documentSection').classList.add('hidden');
+            document.getElementById('tokenDisplay').classList.add('hidden');
+        }
+        
+        function showStatus(element, message, type) {
+            element.className = `status ${type}`;
+            element.innerHTML = message;
+            
+            // Auto-hide success messages after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    element.innerHTML = '';
+                    element.className = 'status';
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>
