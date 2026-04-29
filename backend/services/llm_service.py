@@ -1,10 +1,30 @@
 import asyncio
 import json
+import os
 from openai import AsyncOpenAI
+from typing import Dict, List, Optional
+import sys
+from pathlib import Path
 
-client = AsyncOpenAI(api_key = "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")  # API-ключ должен быть в переменной окружения OPENAI_API_KEY
+vector_db_path = Path(__file__).parent.parent.parent / "data"
+if str(vector_db_path) not in sys.path:
+    sys.path.insert(0, str(vector_db_path))
+from vector_db import ContractRiskDB
 
-from config.setting import settings
+_client: Optional[AsyncOpenAI] = None
+
+
+def get_openai_client() -> AsyncOpenAI:
+    global _client
+    if _client is not None:
+        return _client
+
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise RuntimeError("Не задан OPENAI_API_KEY. Добавьте ключ в переменные окружения.")
+
+    _client = AsyncOpenAI(api_key=api_key)
+    return _client
 
 SGR_SCHEMA = {
   "case_info": {
@@ -131,47 +151,199 @@ SGR_SCHEMA = {
 }
 
 
-async def analyze_document(text: str) -> str:
+async def retrieve_rag_context(db: ContractRiskDB, text: str, n_results: int = 5) -> Dict[str, List[Dict]]:
+    """Асинхронный поиск контекста (если ваша БД поддерживает asyncio)."""
+    try:
+        risks = await asyncio.to_thread(db.search_risks, query=text, n_results=n_results)
+        norms = await asyncio.to_thread(db.search_norms, query=text, n_results=n_results)
+        return {"risks": risks, "norms": norms}
+    except Exception as e:
+        print(f"[WARN] Ошибка при поиске в RAG: {e}")
+        return {"risks": [], "norms": []}
+
+
+def format_rag_context(rag_context: Dict[str, List[Dict]]) -> str:
+    """Форматирует найденные риски и нормы для вставки в промпт (с полным выводом)."""
+    context_str = ""
+
+    if rag_context['risks']:
+        context_str += "═══════ ИЗВЕСТНЫЕ РИСКИ ИЗ БД (ПОЛНЫЙ СПИСОК) ═══════\n\n"
+        for i, risk in enumerate(rag_context['risks'], 1):
+            header = risk.get('header', 'Без заголовка')
+            text = risk.get('text', '')
+            metadata = risk.get('metadata', {})
+            severity = metadata.get('severity', 'не указана')
+            recommendation = metadata.get('recommendation', '')
+            risk_category = metadata.get('risk_category', 'общий')
+            
+            context_str += f"РИСК #{i}\n"
+            context_str += f"  Заголовок: {header}\n"
+            context_str += f"  Категория: {risk_category}\n"
+            context_str += f"  Серьёзность: {severity}/10\n"
+            context_str += f"  Текст:\n    {text}\n"
+            if recommendation:
+                context_str += f"  Рекомендация:\n    {recommendation}\n"
+            context_str += "\n" + "-"*60 + "\n\n"
+    else:
+        context_str += "═══════ РИСКИ НЕ НАЙДЕНЫ ═══════\n\n"
+
+    if rag_context['norms']:
+        context_str += "═══════ РЕЛЕВАНТНЫЕ ЮРИДИЧЕСКИЕ НОРМЫ (ПОЛНЫЙ СПИСОК) ═══════\n\n"
+        for i, norm in enumerate(rag_context['norms'], 1):
+            header = norm.get('header', 'Без заголовка')
+            text = norm.get('text', '')
+            article = norm.get('metadata', {}).get('article', 'не указан')
+            context_str += f"НОРМА #{i}\n"
+            context_str += f"  Статья: {article}\n"
+            context_str += f"  Заголовок: {header}\n"
+            context_str += f"  Текст:\n    {text}\n"
+            context_str += "\n" + "-"*60 + "\n\n"
+    else:
+        context_str += "═══════ НОРМЫ НЕ НАЙДЕНЫ ═══════\n\n"
+
+    return context_str
+
+
+async def analyze_document(text: str, db: Optional[ContractRiskDB] = None) -> str:
     """
-    Анализирует текст договора с помощью LLM и возвращает JSON-строку
-    по SGR-схеме (как в SGR_SCHEMA).
+    Анализирует текст договора с использованием RAG и OpenAI.
+    Полный дебаг: вывод всех данных, промптов и контекста.
     """
+    if not text or len(text) < 30:
+        raise ValueError("Текст договора слишком короткий (минимум 30 символов)")
+
+    if db is None:
+        default_db_path = Path(__file__).resolve().parents[2] / "data" / "chroma_db"
+        db = ContractRiskDB(persist_directory=str(default_db_path))
+
+    print("[DEBUG] Сбор RAG-контекста из векторной БД")
+    
+    # 1. Извлекаем RAG-контекст
+    rag_context = await retrieve_rag_context(db, text)
+    
+    print("\n[DEBUG] Найдено в БД:")
+    print(f"   → Рисков: {len(rag_context['risks'])}")
+    print(f"   → Норм: {len(rag_context['norms'])}")
+    
+    if not rag_context['risks'] and not rag_context['norms']:
+        print("[WARN] RAG-контекст пуст. Проверьте:")
+        print("    - Существует ли ./chroma_db?")
+        print("    - Есть ли данные в коллекциях 'risks' и 'norms'?")
+        print("    - Совпадает ли текст договора с семантикой записей в БД?")
+
+    # 2. Формируем контекст
+    rag_context_str = format_rag_context(rag_context)
+    
+    print("\n[DEBUG] Полный RAG-контекст (отправится в prompt):")
+    print("="*80)
+    print(rag_context_str)
+    print("="*80)
+
+    # 3. Формируем system_prompt
     system_prompt = (
         "Ты юридический ассистент. Тебе передан текст гражданско-правового договора. "
         "Твоя задача — строго по заданной схеме SGR проанализировать договор и вернуть "
         "СТРОГО валидный JSON без комментариев и дополнительного текста.\n\n"
+        
+        "ДЛЯ СПРАВКИ — ИЗВЕСТНЫЕ РИСКИ И НОРМЫ ИЗ БАЗЫ ДАННЫХ:\n"
+        f"{rag_context_str}\n\n"
+        
+        "ИСПОЛЬЗУЙ ЭТУ ИНФОРМАЦИЮ ОБЯЗАТЕЛЬНО:\n"
+        "- Если в договоре есть элементы, совпадающие с рисками выше — укажи их в 'issues'.\n"
+        "- В 'recommendation' приводи рекомендации из раздела 'Рекомендация' для каждого риска.\n"
+        "- Ссылайся на юридические нормы в 'law_references'.\n\n"
+        
         "Схема SGR (образец ключей и ожидаемого смысла значений):\n"
         f"{json.dumps(SGR_SCHEMA, ensure_ascii=False, indent=2)}\n\n"
+        
         "Требования:\n"
-        "1) Соблюдай все ключи и структуру словаря.\n"
-        "2) Заполняй поля на основе текста договора. Если информации нет — пиши 'не указано' или оставляй массив [] пустым.\n"
-        "3) Оцени риск (низкий/средний/высокий) осознанно, поясняя проблемы в issues и рекомендации.\n"
-        "4) Верни ТОЛЬКО JSON-объект, без обёрток, без Markdown, без комментариев."
+        "1) Соблюдай ВСЕ ключи и структуру словаря.\n"
+        "2) Заполняй поля на основе текста договора. Если информации нет — пиши 'не указано'.\n"
+        "3) Оценивай риск на основе как текста договора, так и рисков из БД.\n"
+        "4) В 'summary.critical_issues' перечисли все найденные риски из БД, если они применимы.\n"
+        "5) Верни ТОЛЬКО JSON-объект, без обёрток, без Markdown, без комментариев."
     )
 
-    user_prompt = (
-        "Текст договора ниже между тройными кавычками. Проанализируй его и заполни SGR-схему.\n\n"
-        f'""" {text} """'
-    )
+    user_prompt = f'""" {text} """'
 
-    response = await client.chat.completions.create(
-        model="gpt-5-nano",  # поставь свою модель
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt},
-        ],
-    )
+    print("\n[DEBUG] Полный system prompt:")
+    print("="*80)
+    print(system_prompt)
+    print("="*80)
 
-    raw = response.choices[0].message.content
+    # 4. Вызываем OpenAI
+    print("\n[DEBUG] Отправка запроса в OpenAI...")
+    client = get_openai_client()
+    try:
+        response = await client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+            temperature=0.3,
+        )
+        raw = response.choices[0].message.content
+        print("\n[DEBUG] Получен ответ от LLM:")
+        print("-" * 80)
+        print(raw)
+        print("-" * 80)
+    except Exception as e:
+        print(f"\n[ERROR] Ошибка OpenAI: {e}")
+        raise
 
-    # На всякий случай можно проверить, что это валидный JSON и отформатировать
+    # 5. Парсим JSON
     try:
         parsed = json.loads(raw)
         result = json.dumps(parsed, ensure_ascii=False, indent=2)
-    except json.JSONDecodeError:
-        # Если LLM чуть ошибся в формате — можно либо кинуть ошибку,
-        # либо попытаться почистить через дополнительный промпт/регексп.
-        # Здесь просто пробрасываем как есть.
-        result = raw
+        print("\n[DEBUG] Ответ успешно распарсен как JSON")
+        return result
+    except json.JSONDecodeError as e:
+        print(f"\n[WARN] JSON-парсинг не удался: {e}")
+        print("Возвращаем сырой ответ.")
+        return raw
+    
 
-    return result
+
+
+# ==================== ТЕСТОВЫЙ ЗАПУСК ====================
+if __name__ == "__main__":
+    async def _test():
+        # Инициализация векторной БД (укажите правильный путь, если отличается)
+        db = ContractRiskDB(persist_directory="./chroma_db")
+        
+        # Пример договора
+        sample_contract = """
+        ДОГОВОР ПОСТАВКИ № 42
+        от 10.06.2024 г.
+
+        Стороны:
+        Поставщик: ООО "ТехноПоставка", ИНН 7712345678
+        Покупатель: АО "СтройГрупп", ИНН 7890123456
+
+        1. Предмет договора: Поставка строительных материалов (цемент, арматура).
+        2. Цена: 1 200 000 рублей с НДС. Оплата в течение 10 рабочих дней с момента поставки.
+        3. Срок поставки: не позднее 25.06.2024.
+        4. Гарантия: 6 месяцев.
+        5. Ответственность: неустойка 0.1% в день просрочки.
+        """
+
+        try:
+            result = await analyze_document(sample_contract, db)
+            print("\n" + "="*70)
+            print("РЕЗУЛЬТАТ АНАЛИЗА (RAG + OpenAI):")
+            print("="*70)
+            print(result)
+
+            # Сохраняем в файл
+            with open("test_analysis_result.json", "w", encoding="utf-8") as f:
+                f.write(result)
+            print("\nРезультат сохранён в test_analysis_result.json")
+
+        except Exception as e:
+            print(f"\nОшибка при анализе: {e}")
+            import traceback
+            traceback.print_exc()
+
+    # Запуск асинхронной функции
+    asyncio.run(_test())

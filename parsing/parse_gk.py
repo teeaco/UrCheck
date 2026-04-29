@@ -3,6 +3,7 @@ import re
 from typing import List, Dict
 import os
 import json
+from pathlib import Path
 
 try:
     from docx import Document
@@ -11,14 +12,58 @@ except ImportError:
     DOCX_AVAILABLE = False
     print("@@@@@Библиотека python-docx не установлена. Установите: pip install python-docx")
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent
+DOC_SOURCE_DIRS = [
+    SCRIPT_DIR,
+    SCRIPT_DIR / "root_docs",
+    REPO_ROOT / "data" / "source_docs" / "root",
+    REPO_ROOT / "data" / "source_docs" / "parsing",
+]
+
+
+def resolve_doc_path(filepath: str) -> str:
+    path = Path(filepath)
+    if path.exists():
+        return str(path)
+
+    for source_dir in DOC_SOURCE_DIRS:
+        candidate = source_dir / filepath
+        if candidate.exists():
+            return str(candidate)
+
+    return filepath
+
+
+def collect_gk_files() -> List[str]:
+    found = []
+    seen = set()
+
+    for source_dir in DOC_SOURCE_DIRS:
+        if not source_dir.exists():
+            continue
+
+        for file in source_dir.glob("*.docx"):
+            name = file.name.lower()
+            if name.startswith('гк') or 'гражданск' in name or name.endswith('_gk.docx'):
+                key = str(file.resolve()).lower()
+                if key in seen:
+                    continue
+                seen.add(key)
+                found.append(str(file))
+
+    return found
+
 def parse_gk_file(filepath: str):
     
     if not DOCX_AVAILABLE:
         print("      Библиотека python-docx не доступна")
         return []
     
+    resolved_filepath = resolve_doc_path(filepath)
+
     try:
-        doc = Document(filepath)
+        doc = Document(resolved_filepath)
     except FileNotFoundError:
         print(f"Файл {filepath} не найден")
         return []
@@ -119,15 +164,14 @@ def process_article(header: str, body: str) -> Dict:
     }
 
 def parse_all_gk_files(files: List[str] = None):
-    if files is None: #ищем файлы
-        files = []
-        for file in os.listdir('.'):
-            if file.lower().startswith('гк') and file.lower().endswith('.docx'):
-                files.append(file)
+    if files is None:
+        files = collect_gk_files()
+    else:
+        files = [resolve_doc_path(file) for file in files]
     
     if not files:
-        print(" Не найдено файлов ГК РФ в текущей директории!")
-        print("   Убедитесь, что файлы называются как: ГК_РФ_часть1.docx, ГК_РФ_часть2.docx и т.д.")
+        print(" Не найдено файлов ГК РФ в известных директориях.")
+        print("   Проверьте parsing/, parsing/root_docs и data/source_docs/*.")
         return []
     
     all_articles = []
@@ -136,7 +180,7 @@ def parse_all_gk_files(files: List[str] = None):
     print("=" * 60)
     
     for filepath in files:
-        print(f"\n Чтение файла: {filepath}")
+        print(f"\n Чтение файла: {os.path.basename(filepath)}")
         
         articles = parse_gk_file(filepath)
         all_articles.extend(articles)
@@ -200,7 +244,7 @@ def test_parse_all_gk():
     articles = parse_all_gk_files()
     
     if articles:
-        print(f"\n📋 ПРИМЕРЫ НАЙДЕННЫХ СТАТЕЙ:")
+        print("\nПРИМЕРЫ НАЙДЕННЫХ СТАТЕЙ:")
         for i, article in enumerate(articles[:5]):
             print(f"\n{i+1}. Статья {article['metadata']['article']}")
             print(f"   Заголовок: {article['header'][:80]}...")

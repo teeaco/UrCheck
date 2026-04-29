@@ -40,7 +40,6 @@ class ContractRiskDB:
             risk_id = risk['id']
             
             # Сохраняем header и text в метаданные для прямого доступа
-            # Сохраняем header и text в метаданные для прямого доступа
             metadata = {
                 "type": "risk",
                 "id": risk_id,

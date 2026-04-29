@@ -22,7 +22,7 @@ class RiskChromaManager:
     
     def add_risks_from_json(self, json_path: str = "data/risks.json"):
         """Добавляет риски из JSON в ChromaDB"""
-        print("📦 Загружаю риски в ChromaDB...")
+        print("Загружаю риски в ChromaDB...")
         
         with open(json_path, 'r', encoding='utf-8') as f:
             risks = json.load(f)
@@ -59,7 +59,7 @@ class RiskChromaManager:
             ids=ids
         )
         
-        print(f"✅ Добавлено {len(risks)} рисков в ChromaDB")
+        print(f"Добавлено {len(risks)} рисков в ChromaDB")
         return len(risks)
     
     def _create_document_text(self, risk: Dict) -> str:

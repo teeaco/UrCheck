@@ -1,0 +1,123 @@
+{
+  "case_info": {
+    "contract_type": "Договор поставки",
+    "parties": {
+      "party_a": "ООО \"ТехноПоставка\"",
+      "party_b": "АО \"СтройГрупп\""
+    },
+    "signing_date": "10.06.2024"
+  },
+  "section_1_subject": {
+    "criterion": "Предмет договора",
+    "status": "найден",
+    "content": "Поставка строительных материалов (цемент, арматура)",
+    "risk_level": "низкий",
+    "issues": [],
+    "recommendation": "не указана"
+  },
+  "section_2_price_payment": {
+    "criterion": "Цена и порядок оплаты",
+    "status": "найден",
+    "total_price": "1 200 000 рублей с НДС",
+    "payment_term": "10 рабочих дней с момента поставки",
+    "advance_payment": {
+      "present": "нет",
+      "percentage": "не указано"
+    },
+    "tax_obligation": {
+      "vat_mentioned": "да",
+      "who_pays": "не указано"
+    },
+    "risk_level": "низкий",
+    "issues": [],
+    "recommendation": "не указана"
+  },
+  "section_3_execution_deadline": {
+    "criterion": "Срок исполнения договора",
+    "status": "найден",
+    "deadline": "не позднее 25.06.2024",
+    "unit": "календарные дни",
+    "delivery_place": "не указано",
+    "risk_level": "низкий",
+    "issues": [],
+    "recommendation": "не указана"
+  },
+  "section_4_acceptance_term": {
+    "criterion": "Срок приёмки работ, товара, услуг",
+    "status": "не найден",
+    "acceptance_period": "не указано",
+    "procedures": "не указано",
+    "risk_level": "низкий",
+    "issues": [],
+    "recommendation": "не указана"
+  },
+  "section_5_contract_validity": {
+    "criterion": "Срок действия договора",
+    "status": "не найден",
+    "start_date": "не указана",
+    "end_date": "не указана",
+    "obligation_termination_date": "не указана",
+    "risk_level": "низкий",
+    "issues": [],
+    "recommendation": "не указана"
+  },
+  "section_6_warranty_period": {
+    "criterion": "Гарантийный срок",
+    "status": "найден",
+    "warranty_period": "6 месяцев",
+    "obligations": "не указано",
+    "who_is_responsible": "не указано",
+    "risk_level": "низкий",
+    "issues": [],
+    "recommendation": "не указана"
+  },
+  "section_7_liability": {
+    "criterion": "Ответственность сторон",
+    "status": "найден",
+    "penalties_for_delay": "неустойка 0.1% в день просрочки",
+    "penalties_for_quality": "не указано",
+    "penalty_balance": "не указано",
+    "limitation_clause": "не указано",
+    "risk_level": "низкий",
+    "issues": [],
+    "recommendation": "не указана"
+  },
+  "section_8_jurisdiction": {
+    "criterion": "Подсудность",
+    "status": "не найден",
+    "jurisdiction": "не указано",
+    "is_favorable": "не указано",
+    "risk_level": "низкий",
+    "issues": [],
+    "recommendation": "не указана"
+  },
+  "section_9_requisites": {
+    "criterion": "Реквизиты сторон",
+    "status": "не найден",
+    "party_a_details": {
+      "name": "ООО \"ТехноПоставка\"",
+      "address": "не указано",
+      "bank_details": "не указано"
+    },
+    "party_b_details": {
+      "name": "АО \"СтройГрупп\"",
+      "address": "не указано",
+      "bank_details": "не указано"
+    },
+    "completeness": "не указано",
+    "risk_level": "низкий",
+    "issues": [],
+    "recommendation": "не указана"
+  },
+  "summary": {
+    "overall_assessment": "БЕЗОПАСНЫЙ",
+    "critical_issues": [],
+    "medium_issues": [],
+    "low_issues": [],
+    "total_risk_score": "1",
+    "priority_actions": [],
+    "law_references": []
+  },
+  "judge_questions": [],
+  "next_steps": []
+}

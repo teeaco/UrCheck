@@ -1,9 +1,10 @@
-# maindb_fixed.py
+# maindb.py
 import json
 import os
 import re
 from datetime import datetime
 from typing import List, Dict
+from pathlib import Path
 
 try:
     from parse_gk import parse_all_gk_files, parse_gk_file
@@ -27,6 +28,66 @@ except ImportError:
         print("функция извлечения рисков не доступна")
         return []
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent
+DATA_DIR = REPO_ROOT / "data"
+DOC_SOURCE_DIRS = [
+    SCRIPT_DIR,
+    SCRIPT_DIR / "root_docs",
+    DATA_DIR / "source_docs" / "root",
+    DATA_DIR / "source_docs" / "parsing",
+]
+
+
+def resolve_doc_path(filepath: str) -> str:
+    path = Path(filepath)
+    if path.exists():
+        return str(path)
+
+    for source_dir in DOC_SOURCE_DIRS:
+        candidate = source_dir / filepath
+        if candidate.exists():
+            return str(candidate)
+
+    return filepath
+
+
+def collect_docx_files(name_predicate) -> List[str]:
+    found = []
+    seen = set()
+
+    for source_dir in DOC_SOURCE_DIRS:
+        if not source_dir.exists():
+            continue
+
+        for file in source_dir.glob("*.docx"):
+            if not name_predicate(file.name.lower()):
+                continue
+            key = str(file.resolve()).lower()
+            if key in seen:
+                continue
+            seen.add(key)
+            found.append(str(file))
+
+    return found
+
+
+def get_default_risk_files() -> List[tuple[str, str]]:
+    return [
+        ("готовое решение_ риски поставщика при заключении договора по.docx", "supplier"),
+        ("готовое решение_ риски покупателя при заключении договора по.docx", "customer"),
+        ("готовое решение_ риски подрядчика при заключении договора по.docx", "contractor"),
+        ("готовое решение_ договор возмездного оказания услуг физлицом.docx", "services_individual"),
+        ("готовое решение_ договор возмездного оказания услуг между юр.docx", "services_legal"),
+    ]
+
+
+def resolve_risk_files(risk_files: List[tuple[str, str]]) -> List[tuple[str, str]]:
+    resolved = []
+    for filepath, doc_type in risk_files:
+        resolved.append((resolve_doc_path(filepath), doc_type))
+    return resolved
+
 def main():
     print("=" * 70)
     print("создание полной базы знаний")
@@ -35,13 +96,10 @@ def main():
     # 1. парсим все файлы гк рф
     print("\n1. парсинг всех файлов гк рф...")
     
-    gk_files = []
-    for file in os.listdir('.'):
-        if (file.lower().startswith('гк') or 
-            'гражданск' in file.lower() or 
-            file.lower().endswith('_gk.docx')):
-            if file.lower().endswith('.docx'):
-                gk_files.append(file)
+    gk_files = collect_docx_files(
+        lambda file_name: file_name.endswith('.docx')
+        and (file_name.startswith('гк') or 'гражданск' in file_name or file_name.endswith('_gk.docx'))
+    )
     
     if not gk_files:
         print("   внимание: файлы гк не найдены!")
@@ -53,12 +111,13 @@ def main():
             "гк_рф_часть4.docx"
         ]
         for file in possible_files:
-            if os.path.exists(file):
-                gk_files.append(file)
+            resolved_file = resolve_doc_path(file)
+            if os.path.exists(resolved_file):
+                gk_files.append(resolved_file)
     
     print(f"   найдено файлов гк: {len(gk_files)}")
     for file in gk_files:
-        print(f"   - {file}")
+        print(f"   - {os.path.basename(file)}")
     
     # парсим 
     all_norms = []
@@ -80,13 +139,7 @@ def main():
     # 2. извлекаем риски из всех 5 документов
     print("\n2. извлечение рисков из всех документов...")
     
-    risk_files = [
-        ("готовое решение_ риски поставщика при заключении договора по.docx", "supplier"),
-        ("готовое решение_ риски покупателя при заключении договора по.docx", "customer"),
-        ("готовое решение_ риски подрядчика при заключении договора по.docx", "contractor"),
-        ("готовое решение_ договор возмездного оказания услуг физлицом.docx", "services_individual"),
-        ("готовое решение_ договор возмездного оказания услуг между юр.docx", "services_legal")
-    ]
+    risk_files = resolve_risk_files(get_default_risk_files())
     
     print("   проверка наличия файлов...")
     missing_files = []
@@ -95,7 +148,7 @@ def main():
             print(f"      {os.path.basename(filepath)}")
         else:
             print(f"      {os.path.basename(filepath)} - не найден")
-            missing_files.append(filepath)
+            missing_files.append(os.path.basename(filepath))
     
     # извлекаем риски
     all_risks = []
@@ -163,8 +216,8 @@ def main():
             "norms_count": len(all_norms),
             "risks_count": len(all_risks),
             "connections_count": sum(len(v) for v in connections['risk_to_norms'].values()),
-            "gk_files": gk_files,
-            "risk_files": [f for f, _ in risk_files if os.path.exists(f)],
+            "gk_files": [os.path.basename(f) for f in gk_files],
+            "risk_files": [os.path.basename(f) for f, _ in risk_files if os.path.exists(f)],
             "missing_files": missing_files,
             "method": "strict rule-based extractor"
         },
@@ -267,10 +320,10 @@ def main():
     
     print(f"\n файлы:")
     print(f"   создано json файлов в папке '../data/':")
-    if os.path.exists("../data"):
-        data_files = [f for f in os.listdir("../data") if f.endswith(".json")]
+    if DATA_DIR.exists():
+        data_files = [f for f in os.listdir(DATA_DIR) if f.endswith(".json")]
         for file in sorted(data_files):
-            size = os.path.getsize(f"../data/{file}") / 1024
+            size = os.path.getsize(DATA_DIR / file) / 1024
             print(f"     {file}: {size:.1f} kb")
     else:
         print("     папка data не создана")
@@ -421,16 +474,14 @@ def quick_test():
     print("\n проверка файлов:")
     
     # файлы гк
-    gk_files = [f for f in os.listdir('.') if f.lower().endswith('.docx') and ('гк' in f.lower() or 'гражданск' in f.lower())]
+    gk_files = collect_docx_files(
+        lambda file_name: file_name.endswith('.docx') and ('гк' in file_name or 'гражданск' in file_name)
+    )
     print(f"   файлы гк: {len(gk_files)}")
     for file in gk_files[:3]:
-        print(f"   - {file}")
+        print(f"   - {os.path.basename(file)}")
     
-    risk_files = [
-        ("готовое решение_ риски поставщика при заключении договора по.docx", "supplier"),
-        ("готовое решение_ риски покупателя при заключении договора по.docx", "customer"),
-        ("готовое решение_ риски подрядчика при заключении договора по.docx", "contractor")
-    ]
+    risk_files = resolve_risk_files(get_default_risk_files()[:3])
     
     found_risk_files = [f for f, _ in risk_files if os.path.exists(f)]
     print(f"\n   файлы рисков: {len(found_risk_files)}/{len(risk_files)}")

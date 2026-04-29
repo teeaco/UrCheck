@@ -3,25 +3,49 @@ import json
 import re
 import os
 from typing import List, Dict, Optional
+from pathlib import Path
 from docx import Document
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent
+DOC_SOURCE_DIRS = [
+    SCRIPT_DIR,
+    SCRIPT_DIR / "root_docs",
+    REPO_ROOT / "data" / "source_docs" / "root",
+    REPO_ROOT / "data" / "source_docs" / "parsing",
+]
+
+
+def resolve_doc_path(filepath: str) -> str:
+    path = Path(filepath)
+    if path.exists():
+        return str(path)
+
+    for source_dir in DOC_SOURCE_DIRS:
+        candidate = source_dir / filepath
+        if candidate.exists():
+            return str(candidate)
+
+    return filepath
 
 class StrictRuleBasedExtractor:
     def __init__(self):
         self.current_document_type = "unknown"
     
     def extract_risks(self, filepath: str, doc_type: str) -> List[Dict]:
-        print(f"извлечение рисков из: {os.path.basename(filepath)}")
+        resolved_filepath = resolve_doc_path(filepath)
+        print(f"извлечение рисков из: {os.path.basename(resolved_filepath)}")
         
-        if not os.path.exists(filepath):
+        if not os.path.exists(resolved_filepath):
             print(f"файл не найден: {filepath}")
             return []
         
         self.current_document_type = doc_type
         
         if "services" in doc_type:
-            return self.extract_services_risks(filepath, doc_type)
+            return self.extract_services_risks(resolved_filepath, doc_type)
         else:
-            return self.extract_standard_risks(filepath, doc_type)
+            return self.extract_standard_risks(resolved_filepath, doc_type)
     
     def extract_services_risks(self, filepath: str, doc_type: str) -> List[Dict]:
         try:
@@ -496,18 +520,19 @@ def extract_risks_from_all_files():
     total_risks = 0
     
     for filepath, doc_type in risk_files:
-        if not os.path.exists(filepath):
+        resolved_filepath = resolve_doc_path(filepath)
+        if not os.path.exists(resolved_filepath):
             print(f"файл не найден: {filepath}")
             continue
         
-        print(f"\nобработка файла: {os.path.basename(filepath)}")
+        print(f"\nобработка файла: {os.path.basename(resolved_filepath)}")
         
-        risks = extractor.extract_risks(filepath, doc_type)
+        risks = extractor.extract_risks(resolved_filepath, doc_type)
         
         for i, risk in enumerate(risks):
             risk['id'] = f"risk_{doc_type}_{i}"
             risk['metadata']['document_type'] = doc_type
-            risk['metadata']['source_file'] = os.path.basename(filepath)
+            risk['metadata']['source_file'] = os.path.basename(resolved_filepath)
         
         all_risks.extend(risks)
         total_risks += len(risks)

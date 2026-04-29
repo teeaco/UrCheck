@@ -1,26 +1,27 @@
 """
-RAG-интегрированный анализ договоров с использованием векторной БД и OpenAI.
+RAG-интегрированный анализ договоров с использованием векторной БД и OpenRouter.
 
 Классический паттерн RAG:
 1. Получить текст договора
 2. Поискать релевантные риски и нормы в векторной БД
 3. Подставить контекст (RAG context) в системный промпт
-4. Отправить расширенный запрос в GPT
+4. Отправить расширенный запрос в OpenRouter
 5. Получить структурированный JSON по SGR-схеме
 """
 
-import asyncio
 import json
+import os
 import sys
 from pathlib import Path
-from typing import Dict, List, Any, Optional
-from openai import AsyncOpenAI
+from typing import Dict, List
+import requests
 
 vector_db_path = Path(__file__).parent.parent.parent / "data"
 if str(vector_db_path) not in sys.path:
     sys.path.insert(0, str(vector_db_path))
 
 from vector_db import ContractRiskDB
+
 
 # ==================== SGR SCHEMA ====================
 SGR_SCHEMA = {
@@ -158,22 +159,22 @@ class RAGAnalyzer:
         self,
         api_key: str,
         db: ContractRiskDB,
-        model: str = "gpt-4o-mini",
+        model: str = "gpt-3.5-turbo",
         max_context_items: int = 5
     ):
         """
         Args:
-            api_key: OpenAI API ключ
+            api_key: OpenRouter API ключ
             db: Инициализированный экземпляр ContractRiskDB
-            model: Модель OpenAI (gpt-4, gpt-4o-mini и т.д.)
+            model: Модель OpenRouter (gpt-3.5-turbo, gpt-4, claude-3-opus и т.д.)
             max_context_items: Максимальное количество релевантных рисков/норм для контекста
         """
-        self.client = AsyncOpenAI(api_key=api_key)
+        self.api_key = api_key
         self.db = db
         self.model = model
         self.max_context_items = max_context_items
     
-    async def _retrieve_rag_context(self, text: str) -> Dict[str, List[Dict]]:
+    def _retrieve_rag_context(self, text: str) -> Dict[str, List[Dict]]:
         """
         Извлекает релевантные риски и нормы из векторной БД.
         
@@ -201,7 +202,7 @@ class RAGAnalyzer:
                 'norms': norms
             }
         except Exception as e:
-            print(f"⚠️  Ошибка при поиске в RAG: {e}")
+            print(f"[WARN] Ошибка при поиске в RAG: {e}")
             return {'risks': [], 'norms': []}
     
     def _format_rag_context(self, rag_context: Dict[str, List[Dict]]) -> str:
@@ -239,7 +240,7 @@ class RAGAnalyzer:
         
         return context_str
     
-    async def analyze_document(self, text: str) -> str:
+    def analyze_document(self, text: str) -> str:
         """
         Анализирует текст договора с использованием RAG.
         
@@ -253,11 +254,11 @@ class RAGAnalyzer:
             raise ValueError("Текст договора слишком короткий (минимум 30 символов)")
         
         # Шаг 1: Извлекаем релевантный контекст из БД
-        print("🔍 Поиск релевантных рисков и норм в БД...")
-        rag_context = await self._retrieve_rag_context(text)
+        print("[INFO] Поиск релевантных рисков и норм в БД...")
+        rag_context = self._retrieve_rag_context(text)
         rag_context_str = self._format_rag_context(rag_context)
         
-        print(f"✅ Найдено рисков: {len(rag_context['risks'])}, норм: {len(rag_context['norms'])}")
+        print(f"[INFO] Найдено рисков: {len(rag_context['risks'])}, норм: {len(rag_context['norms'])}")
         
         # Шаг 2: Собираем системный промпт с контекстом RAG
         system_prompt = (
@@ -286,42 +287,72 @@ class RAGAnalyzer:
             f'"""\n{text}\n"""'
         )
         
-        # Шаг 3: Отправляем в LLM с контекстом RAG
-        print("🤖 Отправляю запрос в OpenAI...")
-        response = await self.client.chat.completions.create(
-            model=self.model,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
-            temperature=0.3,  # Низкая температура для консистентности JSON
-        )
+        # Шаг 3: Отправляем в OpenRouter
+        print("[INFO] Отправляю запрос в OpenRouter...")
         
-        raw = response.choices[0].message.content
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "HTTP-Referer": "https://urcheck.app",
+            "X-Title": "UrCheck Contract Analyzer",
+            "Content-Type": "application/json"
+        }
+        
+        payload = {
+            "model": self.model,
+            "messages": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            "temperature": 0.3
+        }
+        
+        try:
+            response = requests.post(
+                "https://openrouter.ai/api/v1/chat/completions",
+                headers=headers,
+                json=payload,
+                timeout=60
+            )
+            response.raise_for_status()
+            
+            result = response.json()
+            
+            if "error" in result:
+                raise Exception(f"OpenRouter error: {result['error']}")
+            
+            raw = result["choices"][0]["message"]["content"]
+            
+        except Exception as e:
+            print(f"[ERROR] Ошибка при обращении к OpenRouter: {e}")
+            raise
         
         # Шаг 4: Парсим и форматируем результат
         try:
             parsed = json.loads(raw)
             result = json.dumps(parsed, ensure_ascii=False, indent=2)
-            print("✅ Анализ успешно завершён")
+            print("[INFO] Анализ успешно завершён")
         except json.JSONDecodeError as e:
-            print(f"⚠️  LLM вернул невалидный JSON: {e}")
+            print(f"[WARN] LLM вернул невалидный JSON: {e}")
             result = raw
         
         return result
 
 
-async def main():
+def main():
     """Пример использования RAG анализатора."""
     
     # Инициализация БД
     db = ContractRiskDB(persist_directory="./chroma_db")
     
     # Инициализация анализатора с RAG
+    openrouter_key = os.getenv("OPENROUTER_API_KEY")
+    if not openrouter_key:
+        raise RuntimeError("Не задан OPENROUTER_API_KEY. Добавьте ключ в переменные окружения.")
+
     analyzer = RAGAnalyzer(
-        api_key="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",
+        api_key=openrouter_key,
         db=db,
-        model="gpt-4o-mini",
+        model="gpt-3.5-turbo",
         max_context_items=5
     )
     
@@ -356,7 +387,7 @@ async def main():
     """
     
     # Анализ
-    result = await analyzer.analyze_document(sample_contract)
+    result = analyzer.analyze_document(sample_contract)
     
     print("\n" + "="*60)
     print("РЕЗУЛЬТАТ АНАЛИЗА:")
@@ -366,8 +397,8 @@ async def main():
     # Сохранение результата в файл
     with open("analysis_result.json", "w", encoding="utf-8") as f:
         f.write(result)
-    print("\n✅ Результат сохранён в analysis_result.json")
+    print("\n[INFO] Результат сохранён в analysis_result.json")
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
